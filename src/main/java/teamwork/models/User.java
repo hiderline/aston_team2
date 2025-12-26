@@ -5,6 +5,12 @@ public class User implements Sortable {
     private final String password; // Пароль
     private final String email;    // Почта
 
+    public User(String name, String password, String email) {
+        this.name = name;
+        this.password = password;
+        this.email = email;
+    }
+
     private User(Builder builder) {
         this.name = builder.name;
         this.password = builder.password;

@@ -10,7 +10,7 @@ public class Bus implements Sortable {
         this.model = model;
         this.odometer = odometer;
     }
-    public Bus(Builder builder) {
+    private Bus(Builder builder) {
         this.number = builder.number;
         this.model = builder.model;
         this.odometer = builder.odometer;
