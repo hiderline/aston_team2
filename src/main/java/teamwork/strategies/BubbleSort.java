@@ -1,6 +1,6 @@
 package teamwork.strategies;
 
-import teamwork.models.Sortable;
+import teamwork.models.Bus;
 
 import java.util.List;
 
@@ -11,7 +11,9 @@ import java.util.List;
  */
 public class BubbleSort implements SortStrategy{
     @Override
-    public List<Sortable> sort(List<Sortable> data, int field) {
+    public List<Bus> sort(List<Bus> data, int field, boolean ascending) {
         return List.of();
     }
+
+
 }

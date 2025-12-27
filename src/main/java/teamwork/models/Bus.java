@@ -1,15 +1,10 @@
 package teamwork.models;
 
-public class Bus implements Sortable {
+public class Bus implements Comparable<Bus> {
     private final String number;    // Номер
     private final String model;     // Модель
     private final int odometer;     // Пробег
 
-    public Bus(String number, String model, int odometer) {
-        this.number = number;
-        this.model = model;
-        this.odometer = odometer;
-    }
     private Bus(Builder builder) {
         this.number = builder.number;
         this.model = builder.model;
@@ -18,25 +13,17 @@ public class Bus implements Sortable {
 
     public String getNumber() { return number; }
     public String getModel() { return model; }
-    public int getMileage() { return odometer; }
-
-    @Override
-    public String getField1() {
-        return number;
-    }
-    @Override
-    public String getField2() {
-        return model;
-    }
-    @Override
-    public String getField3() {
-        return String.valueOf(odometer);
-    }
+    public int getOdometer() { return odometer; }
 
     @Override
     public String toString() {
         return String.format("Автобус [Номер: %s, Модель: %s, Пробег: %d км]",
                 number, model, odometer);
+    }
+
+    @Override
+    public int compareTo(Bus o) {
+        return 0;
     }
 
     public static class Builder {

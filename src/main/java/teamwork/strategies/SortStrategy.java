@@ -1,9 +1,9 @@
 package teamwork.strategies;
 
-import teamwork.models.Sortable;
+import teamwork.models.Bus;
 
 import java.util.List;
 
 public interface SortStrategy {
-    List<Sortable> sort(List<Sortable> data, int field);
+    List<Bus> sort(List<Bus> data, int field, boolean ascending);
 }
