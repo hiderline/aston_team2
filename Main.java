@@ -1,3 +1,4 @@
+package com.example.bus;
 public class Main{
     public static void main(String[] args) {
         List<Bus> buses = new ArrayList<>();
