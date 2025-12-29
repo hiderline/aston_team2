@@ -7,7 +7,7 @@ public class Main{
         boolean running = true;
 
         while (running) {
-            System.out.println("\nМеню:");
+            System.out.println("\nMenu:");
             System.out.println("1 - file");
             System.out.println("2 - random");
             System.out.println("3 - hand");
