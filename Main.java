@@ -5,7 +5,9 @@ public class Main{
         BusManager manager = new BusManager();
 
         boolean running = true;
-
+        System.out.print("what is your name: ");
+        String name = scanner.nextLine();
+        System.out.println("hello, " + name + "!");
         while (running) {
             System.out.println("\nMenu:");
             System.out.println("1 - file");
