@@ -1,30 +1,48 @@
 package com.example.bus;
 public class Main{
     public static void main(String[] args) {
-        List<Bus> buses = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+        BusManager manager = new BusManager();
 
-        buses.add(new Bus.Builder()
-                .setNumber(12)
-                .setModel("MAN")
-                .setMileage(120000)
-                .build());
+        boolean running = true;
 
-        buses.add(new Bus.Builder()
-                .setNumber(5)
-                .setModel("Volvo")
-                .setMileage(90000)
-                .build());
+        while (running) {
+            System.out.println("\nМеню:");
+            System.out.println("1 - file");
+            System.out.println("2 - random");
+            System.out.println("3 - hand");
+            System.out.println("0 - exit");
 
-        buses.add(new Bus.Builder()
-                .setNumber(20)
-                .setModel("Ikarus")
-                .setMileage(150000)
-                .build());
+            System.out.print("choise: ");
+            int choice = scanner.nextInt();
 
-        BubbleSort.sortByMileage(buses);
+            if (choice == 0) {
+                running = false;
+                continue;
+            }
 
-        for (Bus bus : buses) {
-            System.out.println(bus);
+            System.out.print("number of bus: ");
+            int size = scanner.nextInt();
+
+            switch (choice) {
+                case 1 -> manager.setStrategy(new FileBusFillStrategy());
+                case 2 -> manager.setStrategy(new RandomBusFillStrategy());
+                case 3 -> manager.setStrategy(new ManualBusFillStrategy());
+                default -> {
+                    System.out.println("error");
+                    continue;
+                }
+            }
+
+            List<Bus> buses = manager.createBuses(size);
+
+            System.out.println("\bus list:");
+            BubbleSort.sortByModel(buses);
+
+            for (Bus bus : buses) {
+                System.out.println(bus);
+            }
+
         }
     }
 }
