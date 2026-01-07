@@ -17,6 +17,7 @@ public class MenuUtils {
         System.out.println("1. Вручную");
         System.out.println("2. Случайно");
         System.out.println("3. Из файла");
+        System.out.println("0. Вернуться назад");
     }
 
     public static void showSortCollectionMenu() {

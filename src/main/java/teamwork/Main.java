@@ -1,12 +1,20 @@
 package teamwork;
 
-import teamwork.utils.ConsoleUtils;
+import teamwork.factories.BusManager;
+import teamwork.factories.FileBusFillStrategy;
+import teamwork.factories.ManualBusFillStrategy;
+import teamwork.factories.RandomBusFillStrategy;
+import teamwork.models.Bus;
 import teamwork.utils.MenuUtils;
 
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     static Scanner scanner = new Scanner(System.in);
+    static List<Bus> buses = new ArrayList<>();
 
     public static void main(String[] args) {
         entryPoint();
@@ -34,6 +42,7 @@ public class Main {
                 case 5:
                 case 6:
                     clearCollection();
+                    break;
                 case 0:
                     running = false;
                     System.out.println("Выход из программы...");
@@ -47,35 +56,54 @@ public class Main {
         System.exit(0);
     }
     private static void displayCollection() {
-
+        //System.out.println("size()=" + buses.size());
+        for (Bus bus: buses) {
+            System.out.println(bus.toString());
+        }
     }
     private static void sortCollection() {
         MenuUtils.showSortCollectionMenu();
     }
 
     private static void fillCollection() {
-        MenuUtils.showFillCollectionMenu();
-        int choice = getIntInput("Выберите способ: ");
-        switch (choice) {
-            case 1:
-                fillManually();
-                break;
-            case 2:
-                fillRandomly();
-                break;
-            case 3:
-                fillFromFile();
-                break;
-            default:
-                System.out.println("Неверный выбор.");
+        BusManager busManager = new BusManager();
+        boolean running = true;
+
+        while (running) {
+            MenuUtils.showFillCollectionMenu();
+            int choice = getIntInput("Выберите способ: ");
+
+            switch (choice) {
+                case 1:
+                    busManager.setStrategy(new ManualBusFillStrategy());
+                    running = false;
+                    //fillManually();
+                    break;
+                case 2:
+                    busManager.setStrategy(new RandomBusFillStrategy());
+                    buses.addAll(busManager.createBuses(5));
+                    running = false;
+                    //fillRandomly();
+                    break;
+                case 3:
+                    busManager.setStrategy(new FileBusFillStrategy());
+                    running = false;
+                    //fillFromFile();
+                    break;
+                case 0:
+                    running = false;
+                    break;
+                default:
+                    System.out.println("Неверный выбор.");
+            }
         }
     }
 
     private static void fillManually() {
-        //Call ManualDaraFactory()
+        new ManualBusFillStrategy();
     }
     private static void fillRandomly() {
-        //Call RandomDaraFactory()
+        //Call RandomDataFactory()
     }
     private static void fillFromFile() {
         //Call FileDaraFactory()
@@ -92,13 +120,14 @@ public class Main {
                 System.out.println(message);
                 return scanner.nextInt();
             }
-            catch (NumberFormatException e) {
+            catch (InputMismatchException e) {
                 System.out.println("Ошибка: введите номер пункта из меню");
+                scanner.next();
             }
         }
     }
 
     private static void clearCollection() {
-
+        buses.clear();
     }
 }

@@ -3,7 +3,7 @@ package teamwork.models;
 import java.util.Objects;
 
 public class Bus implements Comparable<Bus> {
-    private final String number;    // Номер
+    private final int number;    // Номер
     private final String model;     // Модель
     private final int odometer;     // Пробег
 
@@ -13,7 +13,7 @@ public class Bus implements Comparable<Bus> {
         this.odometer = builder.odometer;
     }
 
-    public String getNumber() { return number; }
+    public int getNumber() { return number; }
     public String getModel() { return model; }
     public int getOdometer() { return odometer; }
 
@@ -49,11 +49,11 @@ public class Bus implements Comparable<Bus> {
 
 
     public static class Builder {
-        private String number;
+        private int number;
         private String model;
         private int odometer;
 
-        public Builder setNumber(String number) {
+        public Builder setNumber(int number) {
             this.number = number;
             return this;
         }
