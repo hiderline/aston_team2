@@ -76,6 +76,7 @@ public class Main {
             switch (choice) {
                 case 1:
                     busManager.setStrategy(new ManualBusFillStrategy());
+                    buses.addAll(busManager.createBuses(-1));
                     running = false;
                     //fillManually();
                     break;
@@ -87,6 +88,7 @@ public class Main {
                     break;
                 case 3:
                     busManager.setStrategy(new FileBusFillStrategy());
+                    buses.addAll(busManager.createBuses(-1));
                     running = false;
                     //fillFromFile();
                     break;
