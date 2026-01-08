@@ -1,4 +1,4 @@
-package com.example.bus;
+package com.example.gradleproject1;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,27 +10,31 @@ public class ManualBusFillStrategy implements BusFillStrategy {
     public List<Bus> fillBuses(int size) {
         Scanner scanner = new Scanner(System.in);
         List<Bus> buses = new ArrayList<>();
+        try{
+            for (int i = 0; i < size; i++) {
+                System.out.println("Bus #" + (i + 1));
 
-        for (int i = 0; i < size; i++) {
-            System.out.println("Bus #" + (i + 1));
+                System.out.print("number: ");
+                int number = Integer.parseInt(scanner.nextLine().trim()); // Чтение строки и конвертация в int
 
-            System.out.print("number : ");
-            int number = scanner.nextInt();
+                System.out.print("model: ");
+                String model = scanner.nextLine().trim(); // Чтение строки
 
-            System.out.print("model: ");
-            String model = scanner.next();
+                System.out.print("mileage: ");
+                int mileage = Integer.parseInt(scanner.nextLine().trim()); // Чтение строки и конвертация в int
 
-            System.out.print("adometr: ");
-            int mileage = scanner.nextInt();
+                Bus bus = new Bus.Builder()
+                        .setNumber(number)
+                        .setModel(model)
+                        .setMileage(mileage)
+                        .build();
 
-            Bus bus = new Bus.Builder()
-                    .setNumber(number)
-                    .setModel(model)
-                    .setMileage(mileage)
-                    .build();
-
-            buses.add(bus);
+                buses.add(bus);
+            }
+        }catch (NumberFormatException e) {
+            System.out.println("Error: Please enter a valid number.");
         }
+
         return buses;
     }
 }
