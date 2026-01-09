@@ -25,13 +25,10 @@ public class FileBusFillStrategy implements BusFillStrategy {
 
         try {
             BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\User\\buses.txt"));
-            String line = reader.readLine();
+            String line;
 
             for (int i=0;i<size;i++) {
-                System.out.println(line);
                 line = reader.readLine();
-
-
                 String[] split = line.split(" ");
 
                 Bus bus;
@@ -42,7 +39,6 @@ public class FileBusFillStrategy implements BusFillStrategy {
                         .build();
 
                 buses.add(bus);
-
             }
             reader.close();
 
