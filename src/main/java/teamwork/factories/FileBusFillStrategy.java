@@ -22,7 +22,7 @@ public class FileBusFillStrategy implements BusFillStrategy {
             Scanner scanner = new Scanner(is, "UTF-8");
             int lineNumber = 0;
 
-            while (scanner.hasNextLine()) {
+            while (buses.size() < size && scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 lineNumber++;
 
@@ -48,6 +48,7 @@ public class FileBusFillStrategy implements BusFillStrategy {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        System.out.println(buses.size() + " добавлено из файла");
         return buses;
     }
 }

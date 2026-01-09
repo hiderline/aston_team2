@@ -22,7 +22,7 @@ public class ManualBusFillStrategy implements BusFillStrategy {
             System.out.print("model: ");
             String model = scanner.next();
 
-            System.out.print("adometr: ");
+            System.out.print("adometer: ");
             int odometer = scanner.nextInt();
 
             Bus bus = new Bus.Builder()

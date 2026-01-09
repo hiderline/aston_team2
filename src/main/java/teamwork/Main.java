@@ -12,6 +12,8 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+import static teamwork.utils.MenuUtils.showManualFillMenu;
+
 public class Main {
     static Scanner scanner = new Scanner(System.in);
     static List<Bus> buses = new ArrayList<>();
@@ -56,9 +58,12 @@ public class Main {
         System.exit(0);
     }
     private static void displayCollection() {
-        //System.out.println("size()=" + buses.size());
-        for (Bus bus: buses) {
-            System.out.println(bus.toString());
+        if (buses.isEmpty()) {
+            System.out.println("Коллекция пуста");
+        } else {
+            for (Bus bus : buses) {
+                System.out.println(bus.toString());
+            }
         }
     }
     private static void sortCollection() {
@@ -67,33 +72,41 @@ public class Main {
 
     private static void fillCollection() {
         BusManager busManager = new BusManager();
-        boolean running = true;
+        boolean menuActive = true;
 
-        while (running) {
+        while (menuActive) {
             MenuUtils.showFillCollectionMenu();
             int choice = getIntInput("Выберите способ: ");
+            int amount = 0;
 
             switch (choice) {
                 case 1:
+                    amount = getFillingAmount();
+                    showManualFillMenu();
+
                     busManager.setStrategy(new ManualBusFillStrategy());
-                    buses.addAll(busManager.createBuses(-1));
-                    running = false;
+                    buses.addAll(busManager.createBuses(amount));
+                    menuActive = false;
                     //fillManually();
                     break;
                 case 2:
+                    amount = getFillingAmount();
+
                     busManager.setStrategy(new RandomBusFillStrategy());
-                    buses.addAll(busManager.createBuses(5));
-                    running = false;
+                    buses.addAll(busManager.createBuses(amount));
+                    menuActive = false;
                     //fillRandomly();
                     break;
                 case 3:
+                    amount = getFillingAmount();
+
                     busManager.setStrategy(new FileBusFillStrategy());
-                    buses.addAll(busManager.createBuses(-1));
-                    running = false;
+                    buses.addAll(busManager.createBuses(amount));
+                    menuActive = false;
                     //fillFromFile();
                     break;
                 case 0:
-                    running = false;
+                    menuActive = false;
                     break;
                 default:
                     System.out.println("Неверный выбор.");
@@ -102,7 +115,7 @@ public class Main {
     }
 
     private static void fillManually() {
-        new ManualBusFillStrategy();
+        //call ManualBusFillStrategy()
     }
     private static void fillRandomly() {
         //Call RandomDataFactory()
@@ -114,7 +127,9 @@ public class Main {
 
     }
 
-
+    private static int getFillingAmount() {
+        return getIntInput("Введите кол-во элементов для заполнения:");
+    }
 
     private static int getIntInput(String message) {
         while (true) {

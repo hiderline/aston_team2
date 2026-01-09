@@ -20,6 +20,11 @@ public class MenuUtils {
         System.out.println("0. Вернуться назад");
     }
 
+    public static void showManualFillMenu() {
+        System.out.println("\nФормат ручного ввода данных (пустая строка для прерывания):");
+        System.out.println("Номер,Модель,Пробег");
+    }
+
     public static void showSortCollectionMenu() {
         System.out.println("\n=== Сортировка ===");
         System.out.println("Выберите поле для сортировки:");
