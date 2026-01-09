@@ -5,6 +5,7 @@ import teamwork.factories.FileBusFillStrategy;
 import teamwork.factories.ManualBusFillStrategy;
 import teamwork.factories.RandomBusFillStrategy;
 import teamwork.models.Bus;
+import teamwork.utils.FindByCollection;
 import teamwork.utils.MenuUtils;
 
 import java.util.ArrayList;
@@ -54,6 +55,20 @@ public class Main {
     }
 
     private static void findByValue() {
+        boolean running = true;
+        int numThread = 0;
+
+        while (running) {
+            numThread = getIntInput("Введите количество потоков (1-5): ");
+
+            if( numThread >= 1 && numThread <= 5) {
+                running = false;
+            } else {
+                System.out.println("Указано неверное количество потоков");
+            }
+        }
+        FindByCollection findByCollection = new FindByCollection();
+        findByCollection.findByValue(buses, numThread);
     }
 
     private static void displayCollection() {
