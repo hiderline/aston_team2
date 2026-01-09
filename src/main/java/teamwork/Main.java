@@ -59,9 +59,9 @@ public class Main {
         int numThread = 0;
 
         while (running) {
-            numThread = getIntInput("Введите количество потоков (1-5): ");
+            numThread = getIntInput("Введите количество потоков (1-" + buses.size() + "): ");
 
-            if( numThread >= 1 && numThread <= 5) {
+            if(numThread >= 1 && numThread <= buses.size()) {
                 running = false;
             } else {
                 System.out.println("Указано неверное количество потоков");
