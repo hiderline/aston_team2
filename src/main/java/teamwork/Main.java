@@ -69,6 +69,19 @@ public class Main {
     private static void fillCollection() {
         BusManager busManager = new BusManager();
         boolean running = true;
+        int size = 0;
+
+        while (running) {
+            size = getIntInput("Введите размера массива(1-10): ");
+
+            if( size >= 1 && size <= 10) {
+                running = false;
+            } else {
+                System.out.println("Указан неверный размер массива");
+            }
+        }
+
+        running = true;
 
         while (running) {
             MenuUtils.showFillCollectionMenu();
@@ -77,19 +90,19 @@ public class Main {
             switch (choice) {
                 case 1 -> {
                     busManager.setStrategy(new ManualBusFillStrategy());
-                    buses.addAll(busManager.createBuses(-1));
+                    buses.addAll(busManager.createBuses(size));
                     running = false;
                     //fillManually();
                 }
                 case 2 -> {
                     busManager.setStrategy(new RandomBusFillStrategy());
-                    buses.addAll(busManager.createBuses(5));
+                    buses.addAll(busManager.createBuses(size));
                     running = false;
                     //fillRandomly();
                 }
                 case 3 -> {
                     busManager.setStrategy(new FileBusFillStrategy());
-                    buses.addAll(busManager.createBuses(-1));
+                    buses.addAll(busManager.createBuses(size));
                     running = false;
 
                 }

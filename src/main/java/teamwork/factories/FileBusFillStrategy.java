@@ -22,7 +22,7 @@ public class FileBusFillStrategy implements BusFillStrategy {
             Scanner scanner = new Scanner(is, "UTF-8");
             int lineNumber = 0;
 
-            while (scanner.hasNextLine()) {
+            while (scanner.hasNextLine() && lineNumber <= size) {
                 String line = scanner.nextLine();
                 lineNumber++;
 
