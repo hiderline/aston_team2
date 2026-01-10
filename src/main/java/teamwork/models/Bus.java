@@ -62,6 +62,14 @@ public class Bus implements Comparable<Bus> {
         private String model;
         private Integer odometer;
 
+        public Builder(){}
+
+        public Builder(int number, String model, int odometer) {
+            this.number = number;
+            this.model = model;
+            this.odometer = odometer;
+        }
+
         public Builder setNumber(int number) {
             this.number = number;
             return this;

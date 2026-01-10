@@ -1,37 +1,33 @@
 package teamwork.factories;
 
 import teamwork.models.Bus;
+import teamwork.validators.BusExceptionHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class ManualBusFillStrategy implements BusFillStrategy {
+public class ManualBusFillStrategy extends BaseBusFillStrategy {
 
     @Override
     public List<Bus> fillBuses(int size) {
         Scanner scanner = new Scanner(System.in);
         List<Bus> buses = new ArrayList<>();
 
+        BusExceptionHandler.printInfo("=== Ручной ввод автобусов ===");
+
         for (int i = 0; i < size; i++) {
-            System.out.println("Bus #" + (i + 1));
+            BusExceptionHandler.printInfo("Автобус #" + (i + 1) + " из " + size);
+            String line = scanner.nextLine().trim();
 
-            System.out.print("number : ");
-            int number = scanner.nextInt();
+            if (line.isEmpty())
+                break;
 
-            System.out.print("model: ");
-            String model = scanner.next();
+            Bus bus = createBusFromLine(line);
+            if (bus != null) {
+                buses.add(bus);
+            }
 
-            System.out.print("adometer: ");
-            int odometer = scanner.nextInt();
-
-            Bus bus = new Bus.Builder()
-                    .setNumber(number)
-                    .setModel(model)
-                    .setOdometer(odometer)
-                    .build();
-
-            buses.add(bus);
         }
         return buses;
     }

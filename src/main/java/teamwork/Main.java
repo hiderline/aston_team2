@@ -64,6 +64,7 @@ public class Main {
             for (Bus bus : buses) {
                 System.out.println(bus.toString());
             }
+            System.out.println("Всего автобусов: " + buses.size());
         }
     }
     private static void sortCollection() {
