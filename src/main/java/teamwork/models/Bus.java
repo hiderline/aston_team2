@@ -4,14 +4,14 @@ import java.util.Objects;
 
 public class Bus implements Comparable<Bus> {
 
-    private final Integer number;    // Номер
-    private final String model;     // Модель
-    private final Integer odometer;     // Пробег
+    private final Integer number;
+    private final String model;
+    private final Integer odometer;
 
-    private Bus(Builder builder) {
-        this.number = builder.number;
-        this.model = builder.model;
-        this.odometer = builder.odometer;
+    public Bus(Integer number, String model, Integer odometer) {
+        this.number = number;
+        this.model = model;
+        this.odometer = odometer;
     }
 
     public Integer getNumber() {
@@ -24,6 +24,10 @@ public class Bus implements Comparable<Bus> {
 
     public Integer getOdometer() {
         return odometer;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     @Override
@@ -56,21 +60,12 @@ public class Bus implements Comparable<Bus> {
         return 0;
     }
 
-
     public static class Builder {
         private Integer number;
         private String model;
         private Integer odometer;
 
-        public Builder(){}
-
-        public Builder(int number, String model, int odometer) {
-            this.number = number;
-            this.model = model;
-            this.odometer = odometer;
-        }
-
-        public Builder setNumber(int number) {
+        public Builder setNumber(Integer number) {
             this.number = number;
             return this;
         }
@@ -80,13 +75,13 @@ public class Bus implements Comparable<Bus> {
             return this;
         }
 
-        public Builder setOdometer(int odometer) {
+        public Builder setOdometer(Integer odometer) {
             this.odometer = odometer;
             return this;
         }
 
         public Bus build() {
-            return new Bus(this);
+            return new Bus(number, model, odometer);
         }
     }
 }
