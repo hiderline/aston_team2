@@ -24,7 +24,11 @@ public abstract class BaseBusFillStrategy implements BusFillStrategy {
 
         if (validation.isAllValid()) {
             // Создаем объект Bus
-            Bus bus = new Bus.Builder(validation.getNumber(), validation.getModel(), validation.getOdometer()).build();
+            Bus bus = Bus.builder()
+                    .setNumber(validation.getNumber())
+                    .setModel(validation.getModel())
+                    .setOdometer(validation.getOdometer())
+                    .build();
             BusExceptionHandler.printSuccess("Автобус успешно добавлен: " + bus);
             return bus;
         } else {
