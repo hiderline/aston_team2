@@ -18,7 +18,7 @@ public class RandomBusFillStrategy implements BusFillStrategy {
         List<Bus> buses = new ArrayList<>();
 
         for (int i = 0; i < size; i++) {
-            Bus bus = new Bus.Builder()
+            Bus bus = Bus.builder()
                     .setNumber(BASE_NUMBER + i)
                     .setModel(BASE_NAME + random.nextInt(BASE_MODEL))
                     .setOdometer(random.nextInt(BASE_ODOMETER))
