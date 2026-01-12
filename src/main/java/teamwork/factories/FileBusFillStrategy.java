@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class FileBusFillStrategy extends BaseBusFillStrategy {
+public class FileBusFillStrategy implements BusFillStrategy {
     public final static String FILENAME = "data.csv";
 
     @Override
@@ -28,7 +28,7 @@ public class FileBusFillStrategy extends BaseBusFillStrategy {
                 if (Validators.isCsvHeader(line) || line.isEmpty())
                     continue;
 
-                Bus bus = createBusFromLine(line); // true - пропускать заголовки
+                Bus bus = BusCreator.createBusFromLine(line); // true - пропускать заголовки
                 if (bus != null) {
                     buses.add(bus);
                 }

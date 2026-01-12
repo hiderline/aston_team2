@@ -5,6 +5,7 @@ import teamwork.factories.FileBusFillStrategy;
 import teamwork.factories.ManualBusFillStrategy;
 import teamwork.factories.RandomBusFillStrategy;
 import teamwork.models.Bus;
+import teamwork.utils.FindByCollection;
 import teamwork.utils.MenuUtils;
 import teamwork.validators.ExceptionHandler;
 import teamwork.validators.FileHandler;
@@ -45,6 +46,8 @@ public class Main {
                     saveToFile();
                     break;
                 case 5:
+                    FindByCollection.findByValue(buses, 3);
+                    break;
                 case 6:
                     clearCollection();
                     break;

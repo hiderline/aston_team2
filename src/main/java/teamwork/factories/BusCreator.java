@@ -5,11 +5,11 @@ import teamwork.validators.ExceptionHandler;
 import teamwork.validators.Validators;
 import teamwork.validators.ValidationResult;
 
-public abstract class BaseBusFillStrategy implements BusFillStrategy {
+public abstract class BusCreator {
     /**
      * Общий метод для создания автобуса из строки данных
      */
-    protected Bus createBusFromLine(String line) {
+    public static Bus createBusFromLine(String line) {
         // Валидируем строку
         if (!Validators.validateCsvLine(line)) {
             ExceptionHandler.printError("Строка не валидна, пропуск");

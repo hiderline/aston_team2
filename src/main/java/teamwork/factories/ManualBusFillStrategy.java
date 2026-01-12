@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class ManualBusFillStrategy extends BaseBusFillStrategy {
+public class ManualBusFillStrategy implements BusFillStrategy {
 
     @Override
     public List<Bus> fillBuses(int size) {
@@ -23,7 +23,7 @@ public class ManualBusFillStrategy extends BaseBusFillStrategy {
             if (line.isEmpty())
                 break;
 
-            Bus bus = createBusFromLine(line);
+            Bus bus = BusCreator.createBusFromLine(line);
             if (bus != null) {
                 buses.add(bus);
             }

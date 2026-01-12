@@ -6,8 +6,8 @@ public class MenuUtils {
         System.out.println("1. Заполнить коллекцию");
         System.out.println("2. Показать коллекцию");
         System.out.println("3. Отсортировать коллекцию");
-        System.out.println("4. Сохранить в файл");
-        System.out.println("5. Найти количество вхождений");
+        System.out.println("4. Сохранить в файл (доп.задание 2)");
+        System.out.println("5. Найти количество вхождений (доп.задание 4)");
         System.out.println("6. Очистить коллекцию");
         System.out.println("0. Выход");
     }
