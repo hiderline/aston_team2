@@ -8,7 +8,7 @@ public class Bus implements Comparable<Bus> {
     private final String model;
     private final Integer odometer;
 
-    public Bus(Integer number, String model, Integer odometer) {
+    private Bus(Integer number, String model, Integer odometer) {
         this.number = number;
         this.model = model;
         this.odometer = odometer;

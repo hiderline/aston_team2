@@ -6,6 +6,7 @@ import teamwork.factories.ManualBusFillStrategy;
 import teamwork.factories.RandomBusFillStrategy;
 import teamwork.models.Bus;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static teamwork.utils.ConsoleUtils.getChoiceFromConsole;
@@ -14,7 +15,7 @@ import static teamwork.utils.MenuUtils.showManualFillMenu;
 
 public class CollectionUtils {
 
-    private static List<Bus> buses;
+    private static final List<Bus> buses = new ArrayList<>();
     private static final String MESSAGE = "Введите кол-во элементов для заполнения: ";
 
     public static void fillCollection() {
@@ -32,21 +33,21 @@ public class CollectionUtils {
                     showManualFillMenu();
 
                     busManager.setStrategy(new ManualBusFillStrategy());
-                    buses = busManager.createBuses(amount);
+                    buses.addAll(busManager.createBuses(amount));
                     isMenuActive = false;
                     break;
                 case "2":
                     amount = getNumberFromConsole(MESSAGE);
 
                     busManager.setStrategy(new RandomBusFillStrategy());
-                    buses = busManager.createBuses(amount);
+                    buses.addAll(busManager.createBuses(amount));
                     isMenuActive = false;
                     break;
                 case "3":
                     amount = getNumberFromConsole(MESSAGE);
 
                     busManager.setStrategy(new FileBusFillStrategy());
-                    buses = busManager.createBuses(amount);
+                    buses.addAll(busManager.createBuses(amount));
                     isMenuActive = false;
                     break;
                 case "0":
