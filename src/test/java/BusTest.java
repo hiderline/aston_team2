@@ -1,4 +1,3 @@
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import teamwork.models.Bus;
 import teamwork.validators.BusValidator;
