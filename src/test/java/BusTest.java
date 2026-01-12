@@ -1,6 +1,6 @@
 import org.junit.jupiter.api.Test;
 import teamwork.models.Bus;
-import teamwork.validators.BusValidator;
+import teamwork.validators.Validators;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,19 +20,19 @@ public class BusTest {
 
     @Test
     void busValidatorNumberIsCorrect(){
-        boolean result= BusValidator.validateNumber("Number");
+        boolean result= Validators.validateNumber("Number");
         assertFalse(result);
     }
 
     @Test
     void busValidatorModelIsCorrect(){
-        boolean result= BusValidator.validateModel("");
+        boolean result= Validators.validateModel("");
         assertFalse(result);
     }
 
     @Test
     void busValidatorOdometerIsCorrect(){
-        boolean result= BusValidator.validateOdometer("km");
+        boolean result= Validators.validateOdometer("km");
         assertFalse(result);
     }
 }
