@@ -130,9 +130,23 @@ public class Main {
         waitingEmptyLine();
     }
     private static void searchByCollection() {
-        int threadsAmount = getIntInput("Укажите кол-во потоков (от 1 до 5)");
-        FindByCollection.findByValue(buses, threadsAmount);
-        waitingEmptyLine();
+        boolean repeat = true;
+        int threadsAmount = 0;
+        int busesSize = buses.size();
+        if (busesSize > 0) {
+            while (repeat) {
+                threadsAmount = getIntInput("Укажите кол-во потоков (от 1 до " + busesSize + ")");
+                if (threadsAmount > 1 && threadsAmount <= busesSize) {
+                    repeat = false;
+                } else {
+                    System.out.println("Неверное количество потоков.");
+                }
+            }
+            FindByCollection.findByValue(buses, threadsAmount);
+            waitingEmptyLine();
+        } else {
+            System.out.println("Для поиска заполните коллекцию");
+        }
     }
 
     private static void saveToFile() {

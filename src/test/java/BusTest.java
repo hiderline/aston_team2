@@ -1,4 +1,5 @@
 import org.junit.jupiter.api.Test;
+import teamwork.factories.BusCreator;
 import teamwork.models.Bus;
 import teamwork.validators.Validators;
 
@@ -16,6 +17,13 @@ public class BusTest {
         assertEquals(1, bus.getNumber());
         assertEquals("ModelS", bus.getModel());
         assertEquals(100, bus.getOdometer());
+    }
+
+    @Test
+    void busCreatorCreateFromLineIsCorrect() {
+        String line = "123, Oka, 12000";
+        Bus bus = BusCreator.createBusFromLine(line);
+        assertNotNull(bus);
     }
 
     @Test

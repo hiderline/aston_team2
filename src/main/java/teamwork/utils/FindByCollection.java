@@ -1,5 +1,6 @@
 package teamwork.utils;
 
+import teamwork.factories.BusCreator;
 import teamwork.factories.ManualBusFillStrategy;
 import teamwork.models.Bus;
 
@@ -10,7 +11,7 @@ import java.util.Scanner;
 
 public class FindByCollection {
 
-    public void findByValue(List<Bus> buses, int numThread) {
+    public static void findByValue(List<Bus> buses, int numThread) {
         Scanner scanner = new Scanner(System.in);
         int[] results = new int[numThread];
         Thread[] threads = new Thread[numThread];
@@ -19,12 +20,10 @@ public class FindByCollection {
         int delta = size - (colElementsByThread * numThread);
         Bus bus = null;
 
-        ManualBusFillStrategy manualBusFillStrategy = new ManualBusFillStrategy();
-
         while (bus == null) {
             System.out.println("Введите значения элемента (номер, модель, пробег):");
             String line = scanner.nextLine();
-            bus = manualBusFillStrategy.createBusFromLine(line);
+            bus = BusCreator.createBusFromLine(line);
         }
 
         Bus currentBus = bus;
