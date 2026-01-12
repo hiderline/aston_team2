@@ -6,5 +6,4 @@ package teamwork.utils;
 "Всплывают" наименьшие или наибольшие элементы.
  */
 public class BubbleSorter{
-
 }

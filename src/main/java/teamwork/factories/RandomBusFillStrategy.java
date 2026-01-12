@@ -16,15 +16,26 @@ public class RandomBusFillStrategy implements BusFillStrategy {
     public List<Bus> fillBuses(int size) {
         Random random = new Random();
         List<Bus> buses = new ArrayList<>();
+        List<Integer> busesNumber = new ArrayList<>();
+//        for (int i = 0; i < size; i++) {
+//            Bus bus = new Bus.Builder()
+//                    .setNumber(BASE_NUMBER + i)
+//                    .setModel(BASE_NAME + random.nextInt(BASE_MODEL))
+//                    .setOdometer(random.nextInt(BASE_ODOMETER))
+//                    .build();
+//            buses.add(bus);
+//        }
 
         for (int i = 0; i < size; i++) {
-            Bus bus = new Bus.Builder()
-                    .setNumber(BASE_NUMBER + i)
-                    .setModel(BASE_NAME + random.nextInt(BASE_MODEL))
-                    .setOdometer(random.nextInt(BASE_ODOMETER))
-                    .build();
-            buses.add(bus);
+            busesNumber.add(i);
         }
+        buses = busesNumber.stream()
+                .map(bus -> new Bus.Builder()
+                        .setNumber(BASE_NUMBER + bus)
+                        .setModel(BASE_NAME + random.nextInt(BASE_MODEL))
+                        .setOdometer(random.nextInt(BASE_ODOMETER)).build())
+                .toList();
+
         return buses;
     }
 }

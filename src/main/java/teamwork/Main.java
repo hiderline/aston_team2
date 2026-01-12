@@ -47,7 +47,6 @@ public class Main {
                     break;
                 case 5:
                     searchByCollection();
-
                     break;
                 case 6:
                     clearCollection();
