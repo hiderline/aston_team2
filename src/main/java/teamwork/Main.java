@@ -5,13 +5,14 @@ import teamwork.factories.FileBusFillStrategy;
 import teamwork.factories.ManualBusFillStrategy;
 import teamwork.factories.RandomBusFillStrategy;
 import teamwork.models.Bus;
-import teamwork.utils.FindByCollection;
 import teamwork.utils.MenuUtils;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+
+import static teamwork.utils.MenuUtils.showManualFillMenu;
 
 public class Main {
     static Scanner scanner = new Scanner(System.in);
@@ -28,24 +29,27 @@ public class Main {
             int choice = getIntInput("Выберите действие: ");
 
             switch (choice) {
-                case 1 ->
+                case 1:
                     fillCollection();
-                case 2 ->
+                    break;
+                case 2:
                     displayCollection();
-                case 3 ->
+                    break;
+                case 3:
                     sortCollection();
-                case 4 ->
+                    break;
+                case 4:
                     saveToFile();
-                case 5 ->
-                    findByValue();
-                case 6 ->
+                    break;
+                case 5:
+                case 6:
                     clearCollection();
-                case 0 -> {
+                    break;
+                case 0:
                     running = false;
                     System.out.println("Выход из программы...");
-                }
-
-                default ->
+                    break;
+                default:
                     System.out.println("Неверный выбор, повторите попытку.");
             }
 
@@ -53,28 +57,14 @@ public class Main {
         scanner.close();
         System.exit(0);
     }
-
-    private static void findByValue() {
-        boolean running = true;
-        int numThread = 0;
-
-        while (running) {
-            numThread = getIntInput("Введите количество потоков (1-" + buses.size() + "): ");
-
-            if(numThread >= 1 && numThread <= buses.size()) {
-                running = false;
-            } else {
-                System.out.println("Указано неверное количество потоков");
-            }
-        }
-        FindByCollection findByCollection = new FindByCollection();
-        findByCollection.findByValue(buses, numThread);
-    }
-
     private static void displayCollection() {
-        //System.out.println("size()=" + buses.size());
-        for (Bus bus: buses) {
-            System.out.println(bus.toString());
+        if (buses.isEmpty()) {
+            System.out.println("Коллекция пуста");
+        } else {
+            for (Bus bus : buses) {
+                System.out.println(bus.toString());
+            }
+            System.out.println("Всего автобусов: " + buses.size());
         }
     }
     private static void sortCollection() {
@@ -83,54 +73,50 @@ public class Main {
 
     private static void fillCollection() {
         BusManager busManager = new BusManager();
-        boolean running = true;
-        int size = 0;
+        boolean menuActive = true;
 
-        while (running) {
-            size = getIntInput("Введите размера массива(1-10): ");
-
-            if( size >= 1 && size <= 10) {
-                running = false;
-            } else {
-                System.out.println("Указан неверный размер массива");
-            }
-        }
-
-        running = true;
-
-        while (running) {
+        while (menuActive) {
             MenuUtils.showFillCollectionMenu();
             int choice = getIntInput("Выберите способ: ");
+            int amount = 0;
 
             switch (choice) {
-                case 1 -> {
-                    busManager.setStrategy(new ManualBusFillStrategy());
-                    buses.addAll(busManager.createBuses(size));
-                    running = false;
-                    //fillManually();
-                }
-                case 2 -> {
-                    busManager.setStrategy(new RandomBusFillStrategy());
-                    buses.addAll(busManager.createBuses(size));
-                    running = false;
-                    //fillRandomly();
-                }
-                case 3 -> {
-                    busManager.setStrategy(new FileBusFillStrategy());
-                    buses.addAll(busManager.createBuses(size));
-                    running = false;
+                case 1:
+                    amount = getFillingAmount();
+                    showManualFillMenu();
 
-                }
-                case 0 ->
-                    running = false;
-                default ->
+                    busManager.setStrategy(new ManualBusFillStrategy());
+                    buses.addAll(busManager.createBuses(amount));
+                    menuActive = false;
+                    //fillManually();
+                    break;
+                case 2:
+                    amount = getFillingAmount();
+
+                    busManager.setStrategy(new RandomBusFillStrategy());
+                    buses.addAll(busManager.createBuses(amount));
+                    menuActive = false;
+                    //fillRandomly();
+                    break;
+                case 3:
+                    amount = getFillingAmount();
+
+                    busManager.setStrategy(new FileBusFillStrategy());
+                    buses.addAll(busManager.createBuses(amount));
+                    menuActive = false;
+                    //fillFromFile();
+                    break;
+                case 0:
+                    menuActive = false;
+                    break;
+                default:
                     System.out.println("Неверный выбор.");
             }
         }
     }
 
     private static void fillManually() {
-        new ManualBusFillStrategy();
+        //call ManualBusFillStrategy()
     }
     private static void fillRandomly() {
         //Call RandomDataFactory()
@@ -142,7 +128,9 @@ public class Main {
 
     }
 
-
+    private static int getFillingAmount() {
+        return getIntInput("Введите кол-во элементов для заполнения:");
+    }
 
     private static int getIntInput(String message) {
         while (true) {

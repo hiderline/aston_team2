@@ -1,4 +1,199 @@
 package teamwork.validators;
 
+import java.util.Arrays;
+
 public class BusValidator {
+
+    private enum FieldName {
+        NUMBER("Номер автобуса"),
+        MODEL("Модель"),
+        ODOMETER("Пробег");
+
+        private final String displayName;
+
+        FieldName(String displayName) {
+            this.displayName = displayName;
+        }
+
+        public String getDisplayName() {
+            return displayName;
+        }
+    }
+
+    // Константы для ограничений
+    public static final int MAX_MODEL_LENGTH = 32;
+    public static final int MAX_ODOMETER = 1_000_000;
+    public static final String CSV_DELIMITER = ",";
+
+    static {
+        BusExceptionHandler.setErrorStream(System.out);
+    }
+
+
+    /**
+     * Валидирует строку CSV формата
+     * @return true если строка валидна, false в противном случае
+     */
+    public static boolean validateCsvLine(String csvLine) {
+        String trimmedLine = csvLine.trim();
+        if (trimmedLine.isEmpty()) {
+            BusExceptionHandler.printError("Строка не может быть пустой");
+            return false;
+        }
+
+        String[] parts = trimmedLine.split(CSV_DELIMITER, -1);
+
+        if (parts.length != 3) {
+            BusExceptionHandler.printError(
+                    String.format("Неверный формат. Ожидается 3 значения через запятую, получено %d. Строка: '%s'",
+                            parts.length, csvLine)
+            );
+            return false;
+        }
+        // Проверяем, что все части не пустые (после trim)
+        for (String part : parts) {
+            if (part.trim().isEmpty()) {
+                BusExceptionHandler.printError(
+                        String.format("Все поля должны быть заполнены. Строка: '%s'", csvLine)
+                );
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Парсит строку и возвращает объекты с данными
+     * @return объект String[]
+     */
+    public static String[] parseCsvLine(String csvLine) {
+        String trimmedLine = csvLine.trim();
+        String[] parts = trimmedLine.split(CSV_DELIMITER, -1);
+        return Arrays.stream(parts).map(String::trim).toArray(String[]::new);
+    }
+
+    /**
+     * Проверяет отдельные данные и возвращает результат
+     */
+    public static ValidationResult validateAllFields(String[] parsedData) {
+
+        ValidationResult result = new ValidationResult();
+        result.setNumberValid(validateNumber(parsedData[0]));
+        result.setModelValid(validateModel(parsedData[1]));
+        result.setOdometerValid(validateOdometer(parsedData[2]));
+
+        if (result.isAllValid()) {
+            result.setNumber(Integer.parseInt(parsedData[0]));
+            result.setModel(parsedData[1]);
+            result.setOdometer(Integer.parseInt(parsedData[2]));
+        }
+
+        return result;
+    }
+
+    /**
+     * Валидирует номер автобуса
+     */
+    public static boolean validateNumber(String numberStr) {
+        try {
+            int number = Integer.parseInt(numberStr);
+            if (number <= 0) {
+                BusExceptionHandler.handleValidationException(
+                        FieldName.NUMBER.displayName,
+                        String.format("Номер автобуса должен быть положительным числом. Получено: %d", number));
+                return false;
+            }
+            return true;
+        } catch (NumberFormatException e) {
+            BusExceptionHandler.handleValidationException(
+                    FieldName.NUMBER.displayName,
+                    String.format("Номер должен быть целым числом. Получено: '%s'", numberStr));
+            return false;
+        }
+    }
+
+    /**
+     * Валидирует модель автобуса
+     */
+    public static boolean validateModel(String model) {
+        if (model == null || model.trim().isEmpty()) {
+            BusExceptionHandler.handleValidationException(
+                    FieldName.MODEL.displayName,
+                    "Модель не может быть пустой"
+            );
+            return false;
+        }
+
+        String trimmedModel = model.trim();
+        if (trimmedModel.length() > MAX_MODEL_LENGTH) {
+            BusExceptionHandler.handleValidationException(
+                    FieldName.MODEL.displayName,
+                    String.format("Название модели слишком длинное (макс. %d символов). Получено: %d символов. Модель: '%s'",
+                            MAX_MODEL_LENGTH, trimmedModel.length(), model)
+            );
+            return false;
+        }
+
+        if (trimmedModel.matches(".*\\d+.*") && !trimmedModel.matches(".*\\D+.*")) {
+            BusExceptionHandler.handleValidationException(
+                    FieldName.MODEL.displayName,
+                    String.format("Модель не может состоять только из цифр. Получено: '%s'", trimmedModel)
+            );
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Валидирует пробег автобуса
+     */
+    public static boolean validateOdometer(String odometerStr) {
+        try {
+            int odometer = Integer.parseInt(odometerStr);
+            if (odometer < 0) {
+                BusExceptionHandler.handleValidationException(
+                        FieldName.ODOMETER.displayName,
+                        String.format("Пробег не может быть отрицательным. Получено: %d", odometer)
+                );
+                return false;
+            }
+
+            if (odometer > MAX_ODOMETER) {
+                BusExceptionHandler.handleValidationException(
+                        FieldName.ODOMETER.displayName,
+                        String.format("Пробег слишком большой (макс. %d км). Получено: %d",
+                                MAX_ODOMETER, odometer)
+                );
+                return false;
+            }
+
+            return true;
+        } catch (NumberFormatException e) {
+            BusExceptionHandler.handleValidationException(
+                    FieldName.ODOMETER.displayName,
+                    String.format("Пробег должен быть целым числом. Получено: '%s'", odometerStr)
+            );
+            return false;
+        }
+    }
+
+
+
+    /**
+     * Проверяет, является ли строка заголовком CSV
+     */
+    public static boolean isCsvHeader(String line) {
+        if (line == null || line.trim().isEmpty()) {
+            return false;
+        }
+
+        String lowerLine = line.toLowerCase().trim();
+        return lowerLine.contains("number") ||
+                lowerLine.contains("model") ||
+                lowerLine.contains("odometer") ||
+                lowerLine.contains("номер") ||
+                lowerLine.contains("модель") ||
+                lowerLine.contains("пробег");
+    }
 }
