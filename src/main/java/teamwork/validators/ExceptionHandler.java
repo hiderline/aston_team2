@@ -1,7 +1,7 @@
 package teamwork.validators;
 import java.io.PrintStream;
 
-public class BusExceptionHandler {
+public class ExceptionHandler {
 
     // ANSI коды для цветного вывода в консоль
     private static final String RED = "\u001B[31m";
@@ -26,11 +26,6 @@ public class BusExceptionHandler {
     public static void handleException(Exception e, String context, String additionalInfo) {
         String message = buildErrorMessage(e, context, additionalInfo);
         printError(message);
-
-        // Логируем для отладки
-        if (e.getCause() != null) {
-            printDebug("Причина: " + e.getCause().getMessage());
-        }
     }
 
     /**

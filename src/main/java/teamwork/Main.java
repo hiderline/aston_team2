@@ -5,7 +5,11 @@ import teamwork.factories.FileBusFillStrategy;
 import teamwork.factories.ManualBusFillStrategy;
 import teamwork.factories.RandomBusFillStrategy;
 import teamwork.models.Bus;
+import teamwork.utils.FindByCollection;
 import teamwork.utils.MenuUtils;
+import teamwork.validators.ExceptionHandler;
+import teamwork.validators.FileHandler;
+import teamwork.validators.Validators;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -42,6 +46,9 @@ public class Main {
                     saveToFile();
                     break;
                 case 5:
+                    searchByCollection();
+
+                    break;
                 case 6:
                     clearCollection();
                     break;
@@ -66,6 +73,7 @@ public class Main {
             }
             System.out.println("Всего автобусов: " + buses.size());
         }
+        waitingEmptyLine();
     }
     private static void sortCollection() {
         MenuUtils.showSortCollectionMenu();
@@ -78,33 +86,20 @@ public class Main {
         while (menuActive) {
             MenuUtils.showFillCollectionMenu();
             int choice = getIntInput("Выберите способ: ");
-            int amount = 0;
 
             switch (choice) {
                 case 1:
-                    amount = getFillingAmount();
-                    showManualFillMenu();
 
-                    busManager.setStrategy(new ManualBusFillStrategy());
-                    buses.addAll(busManager.createBuses(amount));
+                    fillManually(busManager);
                     menuActive = false;
-                    //fillManually();
                     break;
                 case 2:
-                    amount = getFillingAmount();
-
-                    busManager.setStrategy(new RandomBusFillStrategy());
-                    buses.addAll(busManager.createBuses(amount));
+                    fillRandomly(busManager);
                     menuActive = false;
-                    //fillRandomly();
                     break;
                 case 3:
-                    amount = getFillingAmount();
-
-                    busManager.setStrategy(new FileBusFillStrategy());
-                    buses.addAll(busManager.createBuses(amount));
+                    fillFromFile(busManager);
                     menuActive = false;
-                    //fillFromFile();
                     break;
                 case 0:
                     menuActive = false;
@@ -115,37 +110,72 @@ public class Main {
         }
     }
 
-    private static void fillManually() {
-        //call ManualBusFillStrategy()
+    private static void fillManually(BusManager busManager) {
+        int amount = getIntInput("Введите кол-во элементов для заполнения:");
+        showManualFillMenu();
+        busManager.setStrategy(new ManualBusFillStrategy());
+        buses.addAll(busManager.createBuses(amount));
+
     }
-    private static void fillRandomly() {
-        //Call RandomDataFactory()
+    private static void fillRandomly(BusManager busManager) {
+        int amount = getIntInput("Введите кол-во элементов для заполнения:");
+        busManager.setStrategy(new RandomBusFillStrategy());
+        buses.addAll(busManager.createBuses(amount));
+        waitingEmptyLine();
     }
-    private static void fillFromFile() {
-        //Call FileDaraFactory()
+    private static void fillFromFile(BusManager busManager) {
+        int amount = getIntInput("Введите кол-во элементов для заполнения:");
+        busManager.setStrategy(new FileBusFillStrategy());
+        buses.addAll(busManager.createBuses(amount));
+        waitingEmptyLine();
     }
+    private static void searchByCollection() {
+        int threadsAmount = getIntInput("Укажите кол-во потоков (от 1 до 5)");
+        FindByCollection.findByValue(buses, threadsAmount);
+        waitingEmptyLine();
+    }
+
     private static void saveToFile() {
+        System.out.println("Введите название файла (без расширения)");
+        String filename = scanner.nextLine().trim();
 
-    }
+        if (Validators.validateFilename(filename)) {
+            FileHandler fileHandler = new FileHandler();
+            fileHandler.writeToFile(buses, filename);
+        }
 
-    private static int getFillingAmount() {
-        return getIntInput("Введите кол-во элементов для заполнения:");
+
     }
 
     private static int getIntInput(String message) {
         while (true) {
             try {
                 System.out.println(message);
-                return scanner.nextInt();
+                int value = Integer.parseInt(scanner.nextLine());
+                if (value < 0) {
+                    ExceptionHandler.printWarning("Значение не может быть отрицательным");
+                    continue;
+                }
+                return value;
             }
             catch (InputMismatchException e) {
-                System.out.println("Ошибка: введите номер пункта из меню");
-                scanner.next();
+                ExceptionHandler.printError("Ошибка: введите номер пункта из меню");
+            }
+            catch (NumberFormatException e) {
+                ExceptionHandler.printError("Введено недопустимое значение меню");
             }
         }
     }
 
     private static void clearCollection() {
         buses.clear();
+        ExceptionHandler.printInfo("Коллекция очищена");
+        waitingEmptyLine();
+    }
+    private static void waitingEmptyLine() {
+        System.out.println("\n" + "=".repeat(50));
+        ExceptionHandler.printInfo("Enter для продолжения...");
+        scanner.nextLine();
+
     }
 }
