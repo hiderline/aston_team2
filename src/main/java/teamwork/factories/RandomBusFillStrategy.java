@@ -2,12 +2,9 @@ package teamwork.factories;
 
 import teamwork.models.Bus;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Stream;
-
-import static java.util.stream.StreamSupport.stream;
 
 public class RandomBusFillStrategy implements BusFillStrategy {
     private static final int BASE_NUMBER = 100;
