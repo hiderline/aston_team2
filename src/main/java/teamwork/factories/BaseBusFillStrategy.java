@@ -9,7 +9,7 @@ public abstract class BaseBusFillStrategy implements BusFillStrategy {
     /**
      * Общий метод для создания автобуса из строки данных
      */
-    protected Bus createBusFromLine(String line) {
+    public Bus createBusFromLine(String line) {
         // Валидируем строку
         if (!BusValidator.validateCsvLine(line)) {
             BusExceptionHandler.printError("Строка не валидна, пропуск");

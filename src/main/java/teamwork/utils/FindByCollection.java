@@ -1,5 +1,6 @@
 package teamwork.utils;
 
+import teamwork.factories.ManualBusFillStrategy;
 import teamwork.models.Bus;
 
 import java.sql.SQLOutput;
@@ -11,29 +12,22 @@ public class FindByCollection {
 
     public void findByValue(List<Bus> buses, int numThread) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Введите значения элемента.");
-
-        System.out.print("number : ");
-        int number = scanner.nextInt();
-
-        System.out.print("model : ");
-        String model = scanner.next();
-
-        System.out.print("adometr : ");
-        int odometer = scanner.nextInt();
-
-        Bus bus = new Bus.Builder()
-                .setNumber(number)
-                .setModel(model)
-                .setOdometer(odometer)
-                .build();
-
         int[] results = new int[numThread];
         Thread[] threads = new Thread[numThread];
         int size = buses.size();
         int colElementsByThread = (int) size / numThread;
         int delta = size - (colElementsByThread * numThread);
+        Bus bus = null;
 
+        ManualBusFillStrategy manualBusFillStrategy = new ManualBusFillStrategy();
+
+        while (bus == null) {
+            System.out.println("Введите значения элемента (номер, модель, пробег):");
+            String line = scanner.nextLine();
+            bus = manualBusFillStrategy.createBusFromLine(line);
+        }
+
+        Bus currentBus = bus;
         for (int i = 0; i < numThread; i++) {
             int startInd = i * colElementsByThread;
             int endInd = startInd + colElementsByThread + (i == (numThread - 1) ? delta : 0);
@@ -43,7 +37,7 @@ public class FindByCollection {
                 @Override
                 public void run() {
                     for (int j = startInd; j < endInd; j++) {
-                        if(buses.get(j).equals(bus)){
+                        if(buses.get(j).equals(currentBus)){
                             results[indexResult]++;
                         }
                     }

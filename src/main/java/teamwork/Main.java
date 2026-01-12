@@ -5,6 +5,7 @@ import teamwork.factories.FileBusFillStrategy;
 import teamwork.factories.ManualBusFillStrategy;
 import teamwork.factories.RandomBusFillStrategy;
 import teamwork.models.Bus;
+import teamwork.utils.FindByCollection;
 import teamwork.utils.MenuUtils;
 
 import java.util.ArrayList;
@@ -42,6 +43,8 @@ public class Main {
                     saveToFile();
                     break;
                 case 5:
+                    findByCollection();
+                    break;
                 case 6:
                     clearCollection();
                     break;
@@ -57,6 +60,24 @@ public class Main {
         scanner.close();
         System.exit(0);
     }
+
+    private static void findByCollection() {
+        int numThread = 0;
+        int sizeCoolection = buses.size();
+        boolean repeat = true;
+        while (repeat){
+            numThread = getIntInput("Введите количество потоков(1-" + sizeCoolection + "):");
+            if(numThread < 1 || numThread > sizeCoolection) {
+                System.out.println("Введено неверное количество потоков");
+            } else {
+                repeat = false;
+            }
+        }
+
+        FindByCollection findByCollection = new FindByCollection();
+        findByCollection.findByValue(buses, numThread);
+    }
+
     private static void displayCollection() {
         if (buses.isEmpty()) {
             System.out.println("Коллекция пуста");
@@ -67,6 +88,7 @@ public class Main {
             System.out.println("Всего автобусов: " + buses.size());
         }
     }
+
     private static void sortCollection() {
         MenuUtils.showSortCollectionMenu();
     }
@@ -118,12 +140,15 @@ public class Main {
     private static void fillManually() {
         //call ManualBusFillStrategy()
     }
+
     private static void fillRandomly() {
         //Call RandomDataFactory()
     }
+
     private static void fillFromFile() {
         //Call FileDaraFactory()
     }
+
     private static void saveToFile() {
 
     }
@@ -137,8 +162,7 @@ public class Main {
             try {
                 System.out.println(message);
                 return scanner.nextInt();
-            }
-            catch (InputMismatchException e) {
+            } catch (InputMismatchException e) {
                 System.out.println("Ошибка: введите номер пункта из меню");
                 scanner.next();
             }
