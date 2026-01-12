@@ -6,6 +6,9 @@ import teamwork.factories.ManualBusFillStrategy;
 import teamwork.factories.RandomBusFillStrategy;
 import teamwork.models.Bus;
 import teamwork.utils.MenuUtils;
+import teamwork.validators.ExceptionHandler;
+import teamwork.validators.FileHandler;
+import teamwork.validators.Validators;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -125,6 +128,14 @@ public class Main {
         //Call FileDaraFactory()
     }
     private static void saveToFile() {
+        System.out.println("Введите название файла (без расширения)");
+        String filename = scanner.nextLine().trim();
+
+        if (Validators.validateFilename(filename)) {
+            FileHandler fileHandler = new FileHandler();
+            fileHandler.writeToFile(buses, filename);
+        }
+
 
     }
 
@@ -136,11 +147,13 @@ public class Main {
         while (true) {
             try {
                 System.out.println(message);
-                return scanner.nextInt();
+                return Integer.parseInt(scanner.nextLine());
             }
             catch (InputMismatchException e) {
-                System.out.println("Ошибка: введите номер пункта из меню");
-                scanner.next();
+                ExceptionHandler.printError("Ошибка: введите номер пункта из меню");
+            }
+            catch (NumberFormatException e) {
+                ExceptionHandler.printError("Введено недопустимое значение меню");
             }
         }
     }

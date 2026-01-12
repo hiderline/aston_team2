@@ -2,7 +2,7 @@ package teamwork.validators;
 
 import java.util.Arrays;
 
-public class BusValidator {
+public class Validators {
 
     private enum FieldName {
         NUMBER("Номер автобуса"),
@@ -26,7 +26,7 @@ public class BusValidator {
     public static final String CSV_DELIMITER = ",";
 
     static {
-        BusExceptionHandler.setErrorStream(System.out);
+        ExceptionHandler.setErrorStream(System.out);
     }
 
 
@@ -37,14 +37,14 @@ public class BusValidator {
     public static boolean validateCsvLine(String csvLine) {
         String trimmedLine = csvLine.trim();
         if (trimmedLine.isEmpty()) {
-            BusExceptionHandler.printError("Строка не может быть пустой");
+            ExceptionHandler.printError("Строка не может быть пустой");
             return false;
         }
 
         String[] parts = trimmedLine.split(CSV_DELIMITER, -1);
 
         if (parts.length != 3) {
-            BusExceptionHandler.printError(
+            ExceptionHandler.printError(
                     String.format("Неверный формат. Ожидается 3 значения через запятую, получено %d. Строка: '%s'",
                             parts.length, csvLine)
             );
@@ -53,7 +53,7 @@ public class BusValidator {
         // Проверяем, что все части не пустые (после trim)
         for (String part : parts) {
             if (part.trim().isEmpty()) {
-                BusExceptionHandler.printError(
+                ExceptionHandler.printError(
                         String.format("Все поля должны быть заполнены. Строка: '%s'", csvLine)
                 );
                 return false;
@@ -98,14 +98,14 @@ public class BusValidator {
         try {
             int number = Integer.parseInt(numberStr);
             if (number <= 0) {
-                BusExceptionHandler.handleValidationException(
+                ExceptionHandler.handleValidationException(
                         FieldName.NUMBER.displayName,
                         String.format("Номер автобуса должен быть положительным числом. Получено: %d", number));
                 return false;
             }
             return true;
         } catch (NumberFormatException e) {
-            BusExceptionHandler.handleValidationException(
+            ExceptionHandler.handleValidationException(
                     FieldName.NUMBER.displayName,
                     String.format("Номер должен быть целым числом. Получено: '%s'", numberStr));
             return false;
@@ -117,7 +117,7 @@ public class BusValidator {
      */
     public static boolean validateModel(String model) {
         if (model == null || model.trim().isEmpty()) {
-            BusExceptionHandler.handleValidationException(
+            ExceptionHandler.handleValidationException(
                     FieldName.MODEL.displayName,
                     "Модель не может быть пустой"
             );
@@ -126,7 +126,7 @@ public class BusValidator {
 
         String trimmedModel = model.trim();
         if (trimmedModel.length() > MAX_MODEL_LENGTH) {
-            BusExceptionHandler.handleValidationException(
+            ExceptionHandler.handleValidationException(
                     FieldName.MODEL.displayName,
                     String.format("Название модели слишком длинное (макс. %d символов). Получено: %d символов. Модель: '%s'",
                             MAX_MODEL_LENGTH, trimmedModel.length(), model)
@@ -135,7 +135,7 @@ public class BusValidator {
         }
 
         if (trimmedModel.matches(".*\\d+.*") && !trimmedModel.matches(".*\\D+.*")) {
-            BusExceptionHandler.handleValidationException(
+            ExceptionHandler.handleValidationException(
                     FieldName.MODEL.displayName,
                     String.format("Модель не может состоять только из цифр. Получено: '%s'", trimmedModel)
             );
@@ -152,7 +152,7 @@ public class BusValidator {
         try {
             int odometer = Integer.parseInt(odometerStr);
             if (odometer < 0) {
-                BusExceptionHandler.handleValidationException(
+                ExceptionHandler.handleValidationException(
                         FieldName.ODOMETER.displayName,
                         String.format("Пробег не может быть отрицательным. Получено: %d", odometer)
                 );
@@ -160,7 +160,7 @@ public class BusValidator {
             }
 
             if (odometer > MAX_ODOMETER) {
-                BusExceptionHandler.handleValidationException(
+                ExceptionHandler.handleValidationException(
                         FieldName.ODOMETER.displayName,
                         String.format("Пробег слишком большой (макс. %d км). Получено: %d",
                                 MAX_ODOMETER, odometer)
@@ -170,7 +170,7 @@ public class BusValidator {
 
             return true;
         } catch (NumberFormatException e) {
-            BusExceptionHandler.handleValidationException(
+            ExceptionHandler.handleValidationException(
                     FieldName.ODOMETER.displayName,
                     String.format("Пробег должен быть целым числом. Получено: '%s'", odometerStr)
             );
@@ -195,5 +195,33 @@ public class BusValidator {
                 lowerLine.contains("номер") ||
                 lowerLine.contains("модель") ||
                 lowerLine.contains("пробег");
+    }
+
+    /**
+     * Проверяет допустимость названия файла
+     */
+    public static boolean validateFilename(String filename) {
+        if (filename.isEmpty()) {
+            ExceptionHandler.printError("Имя файла не может быть пустым");
+            return false;
+        }
+
+        if (filename.length() > 255) {
+            ExceptionHandler.printError("Имя файла слишком длинное (макс. 255 символов)");
+            return false;
+        }
+
+        // Проверка на запрещённые символы Windows
+        String forbiddenChars = "[\\\\/:*?\"<>|]";
+        if (filename.matches(".*" + forbiddenChars + ".*")) {
+            ExceptionHandler.printError("Имя файла содержит запрещённые символы: \\ / : * ? \" < > |");
+            return false;
+        }
+        // Проверка на точки в начале/конце
+        if (filename.startsWith(".") || filename.endsWith(".") || filename.endsWith(" ")) {
+            ExceptionHandler.printError("Имя файла не может начинаться или заканчиваться точкой или пробелом");
+            return false;
+        }
+        return true;
     }
 }
