@@ -29,7 +29,7 @@ public abstract class BusCreator {
                     validation.getModel(),
                     validation.getOdometer())
                     .build();
-            ExceptionHandler.printSuccess("Автобус успешно добавлен: " + bus);
+            ExceptionHandler.printSuccess("Автобус успешно создан: " + bus);
             return bus;
         } else {
             ExceptionHandler.printError("Данные для полей не валидны, пропуск");

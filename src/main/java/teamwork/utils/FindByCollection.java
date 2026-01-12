@@ -2,6 +2,7 @@ package teamwork.utils;
 
 import teamwork.factories.BusCreator;
 import teamwork.models.Bus;
+import teamwork.validators.ExceptionHandler;
 
 import java.util.List;
 import java.util.Scanner;
@@ -53,6 +54,6 @@ public class FindByCollection {
             count += results[i];
         }
 
-        System.out.println("Количество найденых элементов: " + count);
+        ExceptionHandler.printInfo("Количество найденых элементов: " + count);
     }
 }
