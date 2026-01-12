@@ -138,13 +138,13 @@ public class Main {
                 if (threadsAmount > 1 && threadsAmount <= busesSize) {
                     repeat = false;
                 } else {
-                    System.out.println("Неверное количество потоков.");
+                    ExceptionHandler.printError("Неверное количество потоков.");
                 }
             }
             FindByCollection.findByValue(buses, threadsAmount);
             waitingEmptyLine();
         } else {
-            System.out.println("Для поиска заполните коллекцию");
+            ExceptionHandler.printWarning("Для поиска заполните коллекцию");
         }
     }
 
