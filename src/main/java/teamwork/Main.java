@@ -19,8 +19,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-import static teamwork.utils.MenuUtils.showManualFillMenu;
-import static teamwork.utils.MenuUtils.showSortingDirection;
+import static teamwork.utils.MenuUtils.*;
 
 public class Main {
     static Scanner scanner = new Scanner(System.in);
@@ -67,6 +66,7 @@ public class Main {
         scanner.close();
         System.exit(0);
     }
+
     private static void displayCollection() {
         if (buses.isEmpty()) {
             System.out.println("Коллекция пуста");
@@ -78,6 +78,7 @@ public class Main {
         }
         waitingEmptyLine();
     }
+
     private static void sortCollection() {
         boolean menuActive = true;
 
@@ -103,7 +104,7 @@ public class Main {
                     menuActive = false;
                     break;
                 case 5:
-                    ExceptionHandler.printWarning("Тут пока ничего нет, ждёмс...");
+                    performEvenSorting();
                     menuActive = false;
                     break;
                 case 0:
@@ -113,6 +114,7 @@ public class Main {
             }
         }
     }
+
     private static void performSorting(SortStrategy strategy) {
         if (buses.isEmpty()){
             ExceptionHandler.printError("Список пуст");
@@ -123,11 +125,52 @@ public class Main {
         sorter.sort(buses, strategy, ascending);
         displayCollection();
     }
+
     private static boolean getSortingDirection() {
         showSortingDirection();
         int choice = getIntInput("Ваш выбор:", 1, 2);
         return choice == 1;
     }
+
+    private static void performEvenSorting() {
+        if (buses.isEmpty()) {
+            ExceptionHandler.printError("Список пуст");
+            return;
+        }
+        showSortingField();
+        int choiceField = getIntInput("Ваш выбор:", 1, 2);
+        List<Bus> copyBus = new ArrayList<>();
+        if (choiceField == 1) {
+            for (Bus bus : buses) {
+                if (bus.isNumberEven()) {
+                    copyBus.add(bus);
+                }
+            }
+            performSorting(new BusNumberSortStrategy());
+            int indexCopyBus = 0;
+            for (int i = 0; i < buses.size(); i++) {
+                if (buses.get(i).isNumberEven()) {
+                    buses.set(i, copyBus.get(indexCopyBus++));
+                }
+            }
+
+        } else {
+            for (Bus bus : buses) {
+                if (bus.isOdometerEven()) {
+                    copyBus.add(bus);
+                }
+            }
+            performSorting(new BusOdometerSortStrategy());
+            int indexCopyBus = 0;
+            for (int i = 0; i < buses.size(); i++) {
+                if (buses.get(i).isOdometerEven()) {
+                    buses.set(i, copyBus.get(indexCopyBus++));
+                }
+            }
+        }
+        displayCollection();
+    }
+
 
     private static void fillCollection() {
         BusManager busManager = new BusManager();
@@ -207,8 +250,6 @@ public class Main {
             FileHandler fileHandler = new FileHandler();
             fileHandler.writeToFile(buses, filename);
         }
-
-
     }
 
     private static int getIntInput(String message) {
@@ -232,19 +273,13 @@ public class Main {
     }
     private static int getIntInput(String message, int min, int max) {
         while (true) {
-            try {
-                int value = getIntInput(message);
-                if (value >= min && value <= max) {
-                    return value;
-                }
-                ExceptionHandler.printWarning(
-                        String.format("Введите число от %d до %d", min, max)
-                );
-            } catch (InputMismatchException e) {
-                ExceptionHandler.printError("Ошибка: введите номер пункта из меню");
-            } catch (NumberFormatException e) {
-                System.out.println("Пожалуйста, введите целое число.");
+            int value = getIntInput(message);
+            if (value >= min && value <= max) {
+                return value;
             }
+            ExceptionHandler.printWarning(
+                    String.format("Введите число от %d до %d", min, max)
+            );
         }
     }
 

@@ -21,7 +21,7 @@ public class MenuUtils {
     }
 
     public static void showManualFillMenu() {
-        System.out.println("\nФормат ручного ввода данных (пустая строка для прерывания):");
+        System.out.println("\n=== Формат ручного ввода данных (пустая строка для прерывания) ===");
         System.out.println("Номер,Модель,Пробег");
     }
 
@@ -35,9 +35,16 @@ public class MenuUtils {
         System.out.println("5. По чётному числовому полю (доп.задание 1)");
         System.out.println("0. Вернуться назад");
     }
+
     public static void showSortingDirection() {
-        System.out.println("\nВыберите направление сортировки:");
+        System.out.println("\n=== Выберите направление сортировки ===");
         System.out.println("1. По возрастанию");
         System.out.println("2. По убыванию");
+    }
+
+    public static void showSortingField() {
+        System.out.println("\n=== Выберите поле для сортировки ===");
+        System.out.println("1. Номер");
+        System.out.println("2. Пробег");
     }
 }

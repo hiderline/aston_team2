@@ -45,6 +45,8 @@ public class Bus {
         return odometer % 2 == 0;
     }
 
+    public boolean isNumberEven() { return number % 2 == 0; }
+
     @Override
     public String toString() {
         return String.format("Автобус [Номер: %s, Модель: %s, Пробег: %d км]",
