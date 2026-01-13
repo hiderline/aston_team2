@@ -19,8 +19,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-import static teamwork.utils.MenuUtils.showManualFillMenu;
-import static teamwork.utils.MenuUtils.showSortingDirection;
+import static teamwork.utils.MenuUtils.*;
 
 public class Main {
     static Scanner scanner = new Scanner(System.in);
@@ -41,7 +40,7 @@ public class Main {
                     fillCollection();
                     break;
                 case 2:
-                    displayCollection();
+                    displayCollection(buses);
                     break;
                 case 3:
                     sortCollection();
@@ -67,14 +66,14 @@ public class Main {
         scanner.close();
         System.exit(0);
     }
-    private static void displayCollection() {
-        if (buses.isEmpty()) {
+    private static void displayCollection(List<Bus> busesSort) {
+        if (busesSort.isEmpty()) {
             System.out.println("Коллекция пуста");
         } else {
-            for (Bus bus : buses) {
+            for (Bus bus : busesSort) {
                 System.out.println(bus.toString());
             }
-            System.out.println("Всего автобусов: " + buses.size());
+            System.out.println("Всего автобусов: " + busesSort.size());
         }
         waitingEmptyLine();
     }
@@ -87,40 +86,81 @@ public class Main {
 
             switch (choice) {
                 case 1:
-                    performSorting(new BusNumberSortStrategy());
+                    buses = performSorting(new BusNumberSortStrategy(), buses);
                     break;
                 case 2:
-                    performSorting(new BusModelSortStrategy());
+                    buses = performSorting(new BusModelSortStrategy(), buses);
                     break;
                 case 3:
-                    performSorting(new BusOdometerSortStrategy());
+                    buses = performSorting(new BusOdometerSortStrategy(), buses);
                     break;
                 case 4:
-                    performSorting(new MultiFieldSortStrategy());
+                    buses = performSorting(new MultiFieldSortStrategy(), buses);
                     break;
                 case 5:
-                    ExceptionHandler.printWarning("Тут пока ничего нет, ждёмс...");
+                    performEvenSorting();
                     break;
                 case 0:
+                    menuActive = false;
                     break;
             }
         }
     }
-    private static void performSorting(SortStrategy strategy) {
-        if (buses.isEmpty()){
+    private static List<Bus> performSorting(SortStrategy strategy, List<Bus> busesSort) {
+        if (busesSort.isEmpty()){
             ExceptionHandler.printError("Список пуст");
-            return;
+            return new ArrayList<Bus>();
         }
         boolean ascending = getSortingDirection();
         Sorter sorter = new BubbleSorter();
-        sorter.sort(buses, strategy, ascending);
-        displayCollection();
+        sorter.sort(busesSort, strategy, ascending);
+        displayCollection(busesSort);
+        return busesSort;
     }
     private static boolean getSortingDirection() {
         showSortingDirection();
         //int choice = getIntInput("Ваш выбор: ", 1, 2);
         int choice = getIntInput("Ваш выбор:");
         return choice == 1;
+    }
+
+    private static void performEvenSorting() {
+        if (buses.isEmpty()){
+            ExceptionHandler.printError("Список пуст");
+            return ;
+        }
+        showSortingField();
+        int choiceField = getIntInput("Ваш выбор:");
+        List<Bus> copyBus = new ArrayList<>();
+        if (choiceField == 1){
+            for (Bus bus: buses){
+                if(bus.isNumberEven()){
+                    copyBus.add(bus);
+                }
+            }
+            copyBus = performSorting(new BusNumberSortStrategy(), copyBus);
+            int indexCopeBus = 0;
+            for (int i = 0; i < buses.size(); i++) {
+                if (buses.get(i).isNumberEven()){
+                    buses.set(i, copyBus.get(indexCopeBus++));
+                }
+            }
+
+        } else {
+            for (Bus bus: buses){
+                if(bus.isOdometerEven()){
+                    copyBus.add(bus);
+                }
+            }
+            copyBus = performSorting(new BusOdometerSortStrategy(), copyBus);
+            int indexCopeBus = 0;
+            for (int i = 0; i < buses.size(); i++) {
+                if (buses.get(i).isOdometerEven()){
+                    buses.set(i, copyBus.get(indexCopeBus++));
+                }
+            }
+        }
+        displayCollection(buses);
     }
 
     private static void fillCollection() {

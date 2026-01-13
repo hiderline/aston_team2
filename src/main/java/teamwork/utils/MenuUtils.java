@@ -33,10 +33,17 @@ public class MenuUtils {
         System.out.println("3. По пробегу");
         System.out.println("4. По трём полям сразу");
         System.out.println("5. По чётному числовому полю (доп.задание 1)");
+        System.out.println("0. Главное меню");
     }
     public static void showSortingDirection() {
         System.out.println("\nВыберите направление сортировки:");
         System.out.println("1. По возрастанию");
         System.out.println("2. По убыванию");
+    }
+
+    public static void showSortingField() {
+        System.out.println("\nВыберите поле для сортировки:");
+        System.out.println("1. Номер");
+        System.out.println("2. Пробег");
     }
 }
