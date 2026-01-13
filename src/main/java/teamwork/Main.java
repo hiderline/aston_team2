@@ -5,8 +5,11 @@ import teamwork.factories.FileBusFillStrategy;
 import teamwork.factories.ManualBusFillStrategy;
 import teamwork.factories.RandomBusFillStrategy;
 import teamwork.models.Bus;
+import teamwork.strategies.*;
+import teamwork.utils.BubbleSorter;
 import teamwork.utils.FindByCollection;
 import teamwork.utils.MenuUtils;
+import teamwork.utils.Sorter;
 import teamwork.validators.ExceptionHandler;
 import teamwork.validators.FileHandler;
 import teamwork.validators.Validators;
@@ -17,6 +20,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import static teamwork.utils.MenuUtils.showManualFillMenu;
+import static teamwork.utils.MenuUtils.showSortingDirection;
 
 public class Main {
     static Scanner scanner = new Scanner(System.in);
@@ -75,7 +79,48 @@ public class Main {
         waitingEmptyLine();
     }
     private static void sortCollection() {
-        MenuUtils.showSortCollectionMenu();
+        boolean menuActive = true;
+
+        while (menuActive) {
+            MenuUtils.showSortCollectionMenu();
+            int choice = getIntInput("Выберите способ сортировки: ");
+
+            switch (choice) {
+                case 1:
+                    performSorting(new BusNumberSortStrategy());
+                    break;
+                case 2:
+                    performSorting(new BusModelSortStrategy());
+                    break;
+                case 3:
+                    performSorting(new BusOdometerSortStrategy());
+                    break;
+                case 4:
+                    performSorting(new MultiFieldSortStrategy());
+                    break;
+                case 5:
+                    ExceptionHandler.printWarning("Тут пока ничего нет, ждёмс...");
+                    break;
+                case 0:
+                    break;
+            }
+        }
+    }
+    private static void performSorting(SortStrategy strategy) {
+        if (buses.isEmpty()){
+            ExceptionHandler.printError("Список пуст");
+            return;
+        }
+        boolean ascending = getSortingDirection();
+        Sorter sorter = new BubbleSorter();
+        sorter.sort(buses, strategy, ascending);
+        displayCollection();
+    }
+    private static boolean getSortingDirection() {
+        showSortingDirection();
+        //int choice = getIntInput("Ваш выбор: ", 1, 2);
+        int choice = getIntInput("Ваш выбор:");
+        return choice == 1;
     }
 
     private static void fillCollection() {

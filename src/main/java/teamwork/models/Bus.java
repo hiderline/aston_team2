@@ -2,7 +2,7 @@ package teamwork.models;
 
 import java.util.Objects;
 
-public class Bus implements Comparable<Bus> {
+public class Bus {
 
     private final Integer number;    // Номер
     private final String model;     // Модель
@@ -50,12 +50,6 @@ public class Bus implements Comparable<Bus> {
         return String.format("Автобус [Номер: %s, Модель: %s, Пробег: %d км]",
                 number, model, odometer);
     }
-
-    @Override
-    public int compareTo(Bus o) {
-        return 0;
-    }
-
 
     public static class Builder {
         private Integer number;
