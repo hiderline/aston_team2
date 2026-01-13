@@ -33,6 +33,7 @@ public class MenuUtils {
         System.out.println("3. По пробегу");
         System.out.println("4. По трём полям сразу");
         System.out.println("5. По чётному числовому полю (доп.задание 1)");
+        System.out.println("0. Вернуться назад");
     }
     public static void showSortingDirection() {
         System.out.println("\nВыберите направление сортировки:");

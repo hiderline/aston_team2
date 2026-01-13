@@ -34,7 +34,7 @@ public class Main {
         boolean running = true;
         while (running) {
             MenuUtils.showMainMenu();
-            int choice = getIntInput("Выберите действие: ");
+            int choice = getIntInput("Выберите действие: ", 0 , 6);
 
             switch (choice) {
                 case 1:
@@ -83,26 +83,33 @@ public class Main {
 
         while (menuActive) {
             MenuUtils.showSortCollectionMenu();
-            int choice = getIntInput("Выберите способ сортировки: ");
+            int choice = getIntInput("Выберите способ сортировки: ", 0, 5);
 
             switch (choice) {
                 case 1:
                     performSorting(new BusNumberSortStrategy());
+                    menuActive = false;
                     break;
                 case 2:
                     performSorting(new BusModelSortStrategy());
+                    menuActive = false;
                     break;
                 case 3:
                     performSorting(new BusOdometerSortStrategy());
+                    menuActive = false;
                     break;
                 case 4:
                     performSorting(new MultiFieldSortStrategy());
+                    menuActive = false;
                     break;
                 case 5:
                     ExceptionHandler.printWarning("Тут пока ничего нет, ждёмс...");
+                    menuActive = false;
                     break;
                 case 0:
+                    menuActive = false;
                     break;
+
             }
         }
     }
@@ -118,8 +125,7 @@ public class Main {
     }
     private static boolean getSortingDirection() {
         showSortingDirection();
-        //int choice = getIntInput("Ваш выбор: ", 1, 2);
-        int choice = getIntInput("Ваш выбор:");
+        int choice = getIntInput("Ваш выбор:", 1, 2);
         return choice == 1;
     }
 
@@ -129,11 +135,10 @@ public class Main {
 
         while (menuActive) {
             MenuUtils.showFillCollectionMenu();
-            int choice = getIntInput("Выберите способ: ");
+            int choice = getIntInput("Выберите способ: ", 0, 3);
 
             switch (choice) {
                 case 1:
-
                     fillManually(busManager);
                     menuActive = false;
                     break;
@@ -162,7 +167,7 @@ public class Main {
 
     }
     private static void fillRandomly(BusManager busManager) {
-        int amount = getIntInput("Введите кол-во элементов для заполнения:");
+        int amount = getIntInput("Введите кол-во элементов для заполнения (max 100):", 1, 100);
         busManager.setStrategy(new RandomBusFillStrategy());
         buses.addAll(busManager.createBuses(amount));
         waitingEmptyLine();
@@ -179,7 +184,8 @@ public class Main {
         int busesSize = buses.size();
         if (busesSize > 0) {
             while (repeat) {
-                threadsAmount = getIntInput("Укажите кол-во потоков (от 1 до " + busesSize + ")");
+                threadsAmount = getIntInput(
+                        String.format("Укажите кол-во потоков (от %d до %d)", 1, busesSize));
                 if (threadsAmount > 1 && threadsAmount <= busesSize) {
                     repeat = false;
                 } else {
@@ -221,6 +227,23 @@ public class Main {
             }
             catch (NumberFormatException e) {
                 ExceptionHandler.printError("Введено недопустимое значение меню");
+            }
+        }
+    }
+    private static int getIntInput(String message, int min, int max) {
+        while (true) {
+            try {
+                int value = getIntInput(message);
+                if (value >= min && value <= max) {
+                    return value;
+                }
+                ExceptionHandler.printWarning(
+                        String.format("Введите число от %d до %d", min, max)
+                );
+            } catch (InputMismatchException e) {
+                ExceptionHandler.printError("Ошибка: введите номер пункта из меню");
+            } catch (NumberFormatException e) {
+                System.out.println("Пожалуйста, введите целое число.");
             }
         }
     }
