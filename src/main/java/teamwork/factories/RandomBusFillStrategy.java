@@ -19,10 +19,10 @@ public class RandomBusFillStrategy implements BusFillStrategy {
         Random random = new Random();
         List<Bus> buses;
 
-        buses = Stream.generate(() -> Bus.builder()
-                        .number(BASE_NUMBER + random.nextInt(RANDOM_NUMBER_LIMIT))
-                        .model(BASE_NAME + random.nextInt(BASE_MODEL))
-                        .odometer(random.nextInt(BASE_ODOMETER))
+        buses = Stream.generate(() -> new Bus.Builder()
+                        .setNumber(BASE_NUMBER + random.nextInt(RANDOM_NUMBER_LIMIT))
+                        .setModel(BASE_NAME + random.nextInt(BASE_MODEL))
+                        .setOdometer(random.nextInt(BASE_ODOMETER))
                         .build())
                 .limit(size)
                 .toList();

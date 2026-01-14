@@ -27,25 +27,21 @@ public class SortingService {
                 case 1:
                     sortManager.setStrategy(new BusNumberSortStrategy());
                     performSorting(sortManager, buses, inputService);
-                    inputService.waitForEnter();
                     menuActive = false;
                     break;
                 case 2:
                     sortManager.setStrategy(new BusModelSortStrategy());
                     performSorting(sortManager, buses, inputService);
-                    inputService.waitForEnter();
                     menuActive = false;
                     break;
                 case 3:
                     sortManager.setStrategy(new BusOdometerSortStrategy());
                     performSorting(sortManager, buses, inputService);
-                    inputService.waitForEnter();
                     menuActive = false;
                     break;
                 case 4:
                     sortManager.setStrategy(new MultiFieldSortStrategy());
                     performSorting(sortManager, buses, inputService);
-                    inputService.waitForEnter();
                     menuActive = false;
                     break;
                 case 5:
