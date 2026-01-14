@@ -50,15 +50,6 @@ public class Validators {
             );
             return false;
         }
-        // Проверяем, что все части не пустые (после trim)
-        for (String part : parts) {
-            if (part.trim().isEmpty()) {
-                ExceptionHandler.printError(
-                        String.format("Все поля должны быть заполнены. Строка: '%s'", csvLine)
-                );
-                return false;
-            }
-        }
         return true;
     }
 
@@ -90,11 +81,24 @@ public class Validators {
 
         return result;
     }
+    public static boolean isFieldEmpty(FieldName fieldName, String str) {
+        if (str == null || str.trim().isEmpty()) {
+            ExceptionHandler.handleValidationException(
+                    fieldName.getDisplayName(),
+                    "Поле не может быть пустым"
+            );
+            return false;
+        }
+        return true;
+    }
 
     /**
      * Валидирует номер автобуса
      */
     public static boolean validateNumber(String numberStr) {
+        if (!isFieldEmpty(FieldName.NUMBER, numberStr))
+            return false;
+
         try {
             int number = Integer.parseInt(numberStr);
             if (number <= 0) {
@@ -116,13 +120,8 @@ public class Validators {
      * Валидирует модель автобуса
      */
     public static boolean validateModel(String model) {
-        if (model == null || model.trim().isEmpty()) {
-            ExceptionHandler.handleValidationException(
-                    FieldName.MODEL.displayName,
-                    "Модель не может быть пустой"
-            );
+        if (!isFieldEmpty(FieldName.MODEL, model))
             return false;
-        }
 
         String trimmedModel = model.trim();
         if (trimmedModel.length() > MAX_MODEL_LENGTH) {
@@ -149,6 +148,9 @@ public class Validators {
      * Валидирует пробег автобуса
      */
     public static boolean validateOdometer(String odometerStr) {
+        if (!isFieldEmpty(FieldName.ODOMETER, odometerStr))
+            return false;
+
         try {
             int odometer = Integer.parseInt(odometerStr);
             if (odometer < 0) {
@@ -167,8 +169,8 @@ public class Validators {
                 );
                 return false;
             }
-
             return true;
+
         } catch (NumberFormatException e) {
             ExceptionHandler.handleValidationException(
                     FieldName.ODOMETER.displayName,
@@ -177,8 +179,6 @@ public class Validators {
             return false;
         }
     }
-
-
 
     /**
      * Проверяет, является ли строка заголовком CSV

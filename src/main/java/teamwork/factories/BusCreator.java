@@ -24,10 +24,10 @@ public abstract class BusCreator {
 
         if (validation.isAllValid()) {
             // Создаем объект Bus
-            Bus bus = new Bus.Builder(
-                    validation.getNumber(),
-                    validation.getModel(),
-                    validation.getOdometer())
+            Bus bus = new Bus.Builder()
+                    .setNumber(validation.getNumber())
+                    .setModel(validation.getModel())
+                    .setOdometer(validation.getOdometer())
                     .build();
             ExceptionHandler.printSuccess("Автобус успешно создан: " + bus);
             return bus;

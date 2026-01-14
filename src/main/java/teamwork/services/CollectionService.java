@@ -57,6 +57,7 @@ public class CollectionService {
         MenuUtils.showManualFillMenu();
         busManager.setStrategy(new ManualBusFillStrategy());
         buses.addAll(busManager.createBuses(amount));
+        inputService.waitForEnter();
     }
 
     private void fillRandomly(BusManager busManager, InputService inputService) {

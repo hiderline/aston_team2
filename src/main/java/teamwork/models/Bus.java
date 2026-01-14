@@ -58,15 +58,7 @@ public class Bus {
         private String model;
         private Integer odometer;
 
-        public Builder(){}
-
-        public Builder(int number, String model, int odometer) {
-            this.number = number;
-            this.model = model;
-            this.odometer = odometer;
-        }
-
-        public Builder setNumber(int number) {
+        public Builder setNumber(Integer number) {
             this.number = number;
             return this;
         }
@@ -76,7 +68,7 @@ public class Bus {
             return this;
         }
 
-        public Builder setOdometer(int odometer) {
+        public Builder setOdometer(Integer odometer) {
             this.odometer = odometer;
             return this;
         }
