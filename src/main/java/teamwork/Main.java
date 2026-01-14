@@ -12,10 +12,7 @@ import teamwork.validators.ExceptionHandler;
 import teamwork.validators.FileHandler;
 import teamwork.validators.Validators;
 
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 import static teamwork.utils.MenuUtils.*;
 
@@ -107,11 +104,41 @@ public class Main {
                     menuActive = false;
                     break;
                 case 5:
-                    sortManager.setStrategy(new EvenOdometerSortStrategy());
-                    performSorting(sortManager, buses);
+                    evenSorting(sortManager);
                     menuActive = false;
                     break;
                 case 0:
+                    menuActive = false;
+                    break;
+            }
+        }
+    }
+
+    private static void evenSorting(SortManager sortManager) {
+        boolean menuActive = true;
+        while (menuActive) {
+            showEvenSortingMenu();
+            int choice = getIntInput("Выберите способ сортировки: ", 1, 2);
+
+            switch (choice) {
+                case 1:
+                    sortManager.setStrategy(
+                            new EvenFieldSortStrategy(
+                                    Bus::getNumber,
+                                    Bus::isNumberEven
+                            )
+                    );
+                    performSorting(sortManager, buses);
+                    menuActive = false;
+                    break;
+                case 2:
+                    sortManager.setStrategy(
+                            new EvenFieldSortStrategy(
+                                    Bus::getOdometer,
+                                    Bus::isOdometerEven
+                            )
+                    );
+                    performSorting(sortManager, buses);
                     menuActive = false;
                     break;
             }

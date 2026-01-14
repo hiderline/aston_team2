@@ -42,7 +42,7 @@ public class MenuUtils {
         System.out.println("2. По убыванию");
     }
 
-    public static void showSortingField() {
+    public static void showEvenSortingMenu() {
         System.out.println("\n=== Выберите поле для сортировки ===");
         System.out.println("1. Номер");
         System.out.println("2. Пробег");

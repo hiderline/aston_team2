@@ -51,6 +51,7 @@ public class FileHandler {
                 writer.write(bus.toString());
                 writer.newLine();
             }
+            writer.write("=".repeat(80));
             writer.flush();
         } catch (IOException e) {
             ExceptionHandler.printError("Ошибка записи в файл: " + e);
