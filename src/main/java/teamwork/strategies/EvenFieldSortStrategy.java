@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public class EvenFieldSortStrategy implements SortStrategy{
+public class EvenFieldSortStrategy implements SortStrategy {
+
     private final Function<Bus, Integer> fieldExtractor;
     private final Predicate<Bus> evenChecker;
 

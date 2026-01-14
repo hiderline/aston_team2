@@ -7,6 +7,7 @@ import teamwork.validators.ExceptionHandler;
 import java.util.List;
 
 public class SearchService {
+
     public void searchByCollection(InputService inputService, List<Bus> buses) {
         boolean repeat = true;
         int threadsAmount = 0;

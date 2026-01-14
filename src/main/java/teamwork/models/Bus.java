@@ -45,7 +45,9 @@ public class Bus {
         return odometer % 2 == 0;
     }
 
-    public boolean isNumberEven() { return number % 2 == 0; }
+    public boolean isNumberEven() {
+        return number % 2 == 0;
+    }
 
     @Override
     public String toString() {

@@ -1,12 +1,9 @@
 package teamwork.utils;
 
-import teamwork.models.Bus;
-import teamwork.strategies.SortStrategy;
-
 import java.util.Comparator;
 import java.util.List;
 
-public class BubbleSorter{
+public class BubbleSorter {
 
     public static <T> void sort(List<T> list, Comparator<T> c) {
         for (int i = 0; i < list.size() - 1; i++) {

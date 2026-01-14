@@ -6,7 +6,8 @@ import teamwork.utils.BubbleSorter;
 import java.util.Comparator;
 import java.util.List;
 
-public class BusNumberSortStrategy implements SortStrategy{
+public class BusNumberSortStrategy implements SortStrategy {
+
     @Override
     public void sort(List<Bus> data, boolean ascending) {
         Comparator<Bus> numberComparator = Comparator.comparing(Bus::getNumber);

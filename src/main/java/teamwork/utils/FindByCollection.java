@@ -1,11 +1,8 @@
 package teamwork.utils;
 
 import teamwork.factories.BusCreator;
-import teamwork.factories.ManualBusFillStrategy;
 import teamwork.models.Bus;
 
-import java.sql.SQLOutput;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,7 +13,7 @@ public class FindByCollection {
         int[] results = new int[numThread];
         Thread[] threads = new Thread[numThread];
         int size = buses.size();
-        int colElementsByThread = (int) size / numThread;
+        int colElementsByThread = size / numThread;
         int delta = size - (colElementsByThread * numThread);
         Bus bus = null;
 
@@ -32,13 +29,10 @@ public class FindByCollection {
             int endInd = startInd + colElementsByThread + (i == (numThread - 1) ? delta : 0);
             int indexResult = i;
 
-            threads[i] = new Thread(new Runnable(){
-                @Override
-                public void run() {
-                    for (int j = startInd; j < endInd; j++) {
-                        if(buses.get(j).equals(currentBus)){
-                            results[indexResult]++;
-                        }
+            threads[i] = new Thread(() -> {
+                for (int j = startInd; j < endInd; j++) {
+                    if (buses.get(j).equals(currentBus)) {
+                        results[indexResult]++;
                     }
                 }
             });

@@ -7,6 +7,7 @@ import teamwork.utils.MenuUtils;
 import java.util.List;
 
 public class ApplicationFacade {
+
     private final InputService inputService;
     private final CollectionService collectionService;
     private final SortingService sortingService;

@@ -1,6 +1,7 @@
 package teamwork.utils;
 
 public class MenuUtils {
+
     public static void showMainMenu() {
         System.out.println("\n=== Главное меню ===");
         System.out.println("1. Заполнить коллекцию");

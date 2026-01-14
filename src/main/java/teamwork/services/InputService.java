@@ -5,6 +5,7 @@ import teamwork.validators.ExceptionHandler;
 import java.util.Scanner;
 
 public class InputService {
+
     private final Scanner scanner;
 
     public InputService() {

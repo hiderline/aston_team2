@@ -1,4 +1,5 @@
 package teamwork.validators;
+
 import java.io.PrintStream;
 
 public class ExceptionHandler {
