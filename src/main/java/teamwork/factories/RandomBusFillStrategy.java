@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 public class RandomBusFillStrategy implements BusFillStrategy {
     private static final int BASE_NUMBER = 100;
     private static final int RANDOM_NUMBER_LIMIT = 899;
-    private static final String BASE_NAME = "RandomModel";
+    private static final String BASE_NAME = "RandomModel_";
     private static final int BASE_MODEL = 10;
     private static final int BASE_ODOMETER = 1_000_000;
 

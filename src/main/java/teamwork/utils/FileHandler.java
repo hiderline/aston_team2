@@ -1,6 +1,7 @@
-package teamwork.validators;
+package teamwork.utils;
 
 import teamwork.models.Bus;
+import teamwork.validators.ExceptionHandler;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
