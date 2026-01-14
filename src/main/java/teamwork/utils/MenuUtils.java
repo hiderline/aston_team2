@@ -36,7 +36,7 @@ public class MenuUtils {
         System.out.println("0. Вернуться назад");
     }
 
-    public static void showSortingDirection() {
+    public static void showSortingDirectionMenu() {
         System.out.println("\n=== Выберите направление сортировки ===");
         System.out.println("1. По возрастанию");
         System.out.println("2. По убыванию");

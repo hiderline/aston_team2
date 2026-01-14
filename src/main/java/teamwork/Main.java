@@ -157,7 +157,7 @@ public class Main {
     }
 
     private static boolean getSortingDirection() {
-        showSortingDirection();
+        showSortingDirectionMenu();
         int choice = getIntInput("Ваш выбор:", 1, 2);
         return choice == 1;
     }
@@ -198,20 +198,22 @@ public class Main {
         showManualFillMenu();
         busManager.setStrategy(new ManualBusFillStrategy());
         buses.addAll(busManager.createBuses(amount));
-
     }
+
     private static void fillRandomly(BusManager busManager) {
         int amount = getIntInput("Введите кол-во элементов для заполнения (max 100):", 1, 100);
         busManager.setStrategy(new RandomBusFillStrategy());
         buses.addAll(busManager.createBuses(amount));
         waitingEmptyLine();
     }
+
     private static void fillFromFile(BusManager busManager) {
         int amount = getIntInput("Введите кол-во элементов для заполнения:");
         busManager.setStrategy(new FileBusFillStrategy());
         buses.addAll(busManager.createBuses(amount));
         waitingEmptyLine();
     }
+
     private static void searchByCollection() {
         boolean repeat = true;
         int threadsAmount = 0;
@@ -232,12 +234,14 @@ public class Main {
             ExceptionHandler.printWarning("Для поиска заполните коллекцию");
         }
     }
+
     private static void saveToFile(List<Bus> buses) {
         System.out.println("Введите название файла (без расширения)");
         String filename = scanner.nextLine().trim();
 
         saveToFile(buses, filename);
     }
+
     private static void saveToFile(List<Bus> buses, String filename) {
         if (filename.isEmpty()) {
             ExceptionHandler.printError("Не указано имя файла...");
@@ -253,15 +257,18 @@ public class Main {
         while (true) {
             try {
                 System.out.println(message);
-                int value = Integer.parseInt(scanner.nextLine().trim());
+                String input = scanner.nextLine().trim();
+                if (input.isEmpty()) {
+                    ExceptionHandler.printError("Пустой ввод. Попробуйте снова.");
+                    continue;
+                }
+
+                int value = Integer.parseInt(input);
                 if (value < 0) {
                     ExceptionHandler.printWarning("Значение не может быть отрицательным");
                     continue;
                 }
                 return value;
-            }
-            catch (InputMismatchException e) {
-                ExceptionHandler.printError("Ошибка: введите номер пункта из меню");
             }
             catch (NumberFormatException e) {
                 ExceptionHandler.printError("Введено недопустимое значение меню");
@@ -285,10 +292,10 @@ public class Main {
         ExceptionHandler.printInfo("Коллекция очищена");
         waitingEmptyLine();
     }
+
     private static void waitingEmptyLine() {
         System.out.println("\n" + "=".repeat(50));
         ExceptionHandler.printInfo("Enter для продолжения...");
         scanner.nextLine();
-
     }
 }
