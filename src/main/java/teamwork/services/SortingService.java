@@ -91,16 +91,32 @@ public class SortingService {
     }
 
     private void performSorting(SortManager manager, List<Bus> buses, InputService inputService) {
-        if (buses.isEmpty()) {
-            ExceptionHandler.printError("Список пуст");
+        // 1. Проверка коллекции
+        if (isCollectionEmpty(buses)) {
             return;
         }
+        // 2. Получение направления сортировки
         boolean ascending = getSortingDirection(inputService);
+
+        // 3. Выполнение сортировки
         manager.sort(buses, ascending);
 
+        // 4. Отображение результата
         displaySortedCollection(buses);
 
+        // 5. Сохранение в файл
         fileService.saveToFile(buses, manager.getStrategyName());
+
+        // 6. Ожидание подтверждения
+        inputService.waitForEnter();
+    }
+
+    private boolean isCollectionEmpty(List<Bus> buses) {
+        if (buses.isEmpty()) {
+            ExceptionHandler.printError("Список пуст");
+            return true;
+        }
+        return false;
     }
 
     private boolean getSortingDirection(InputService inputService) {
