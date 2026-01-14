@@ -11,7 +11,7 @@ public class FileService {
     public void saveToFile(InputService inputService, List<Bus> buses) {
         if (!Validators.validateListSize(buses))
             return;
-        String filename = inputService.getStringInput("Введите название файла (без расширения)");
+        String filename = inputService.getStringInput("Введите название файла (макс. 255 символов)");
 
         if (filename.isEmpty()) {
             ExceptionHandler.printError("Не указано имя файла...");
