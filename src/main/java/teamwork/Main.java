@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import static teamwork.utils.MenuUtils.*;
 
@@ -133,11 +134,7 @@ public class Main {
         int choiceField = getIntInput("Ваш выбор:");
         List<Bus> copyBus = new ArrayList<>();
         if (choiceField == 1){
-            for (Bus bus: buses){
-                if(bus.isNumberEven()){
-                    copyBus.add(bus);
-                }
-            }
+            copyBus = buses.stream().filter(Bus::isNumberEven).collect(Collectors.toList());
             copyBus = performSorting(new BusNumberSortStrategy(), copyBus);
             int indexCopeBus = 0;
             for (int i = 0; i < buses.size(); i++) {
@@ -147,11 +144,7 @@ public class Main {
             }
 
         } else {
-            for (Bus bus: buses){
-                if(bus.isOdometerEven()){
-                    copyBus.add(bus);
-                }
-            }
+            copyBus = buses.stream().filter(Bus::isOdometerEven).collect(Collectors.toList());
             copyBus = performSorting(new BusOdometerSortStrategy(), copyBus);
             int indexCopeBus = 0;
             for (int i = 0; i < buses.size(); i++) {
