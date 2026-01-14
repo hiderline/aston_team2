@@ -51,6 +51,7 @@ public class ApplicationFacade {
                 break;
             case 4:
                 fileService.saveToFile(inputService, buses);
+                inputService.waitForEnter();
                 break;
             case 5:
                 searchService.searchByCollection(inputService, buses);

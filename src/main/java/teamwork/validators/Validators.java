@@ -1,6 +1,9 @@
 package teamwork.validators;
 
+import teamwork.models.Bus;
+
 import java.util.Arrays;
+import java.util.List;
 
 public class Validators {
 
@@ -220,6 +223,14 @@ public class Validators {
         // Проверка на точки в начале/конце
         if (filename.startsWith(".") || filename.endsWith(".") || filename.endsWith(" ")) {
             ExceptionHandler.printError("Имя файла не может начинаться или заканчиваться точкой или пробелом");
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean validateListSize(List<Bus> list) {
+        if (list.isEmpty()) {
+            ExceptionHandler.handleValidationException("Размер коллекции", "Коллекция пуста");
             return false;
         }
         return true;

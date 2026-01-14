@@ -31,8 +31,8 @@ public class ExceptionHandler {
     /**
      * Обрабатывает исключение валидации
      */
-    public static void handleValidationException(String fieldName, String input) {
-        String message = buildValidationErrorMessage(fieldName, input);
+    public static void handleValidationException(String context, String input) {
+        String message = buildValidationErrorMessage(context, input);
         printWarning(message);
     }
 
@@ -96,9 +96,9 @@ public class ExceptionHandler {
         return sb.toString();
     }
 
-    private static String buildValidationErrorMessage(String fieldName, String input) {
-        return String.format("Ошибка валидации: %s\n  Введенные данные: '%s'",
-                fieldName, input);
+    private static String buildValidationErrorMessage(String context, String input) {
+        return String.format("Ошибка валидации: %s\n\t\t\t\t\tДетали: '%s'",
+                context, input);
     }
 
     public static void printError(String message) {
