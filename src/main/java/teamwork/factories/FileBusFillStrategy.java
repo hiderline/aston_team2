@@ -5,11 +5,13 @@ import teamwork.validators.ExceptionHandler;
 import teamwork.validators.Validators;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class FileBusFillStrategy implements BusFillStrategy {
+
     public final static String FILENAME = "data.csv";
 
     @Override
@@ -20,7 +22,7 @@ public class FileBusFillStrategy implements BusFillStrategy {
             if (is == null) {
                 throw new FileNotFoundException("Файл " + FILENAME + " не найден в ресурсах");
             }
-            Scanner scanner = new Scanner(is, "UTF-8");
+            Scanner scanner = new Scanner(is, StandardCharsets.UTF_8);
 
             while (buses.size() < size && scanner.hasNextLine()) {
                 String line = scanner.nextLine();

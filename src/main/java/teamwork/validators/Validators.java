@@ -32,6 +32,7 @@ public class Validators {
 
     /**
      * Валидирует строку CSV формата
+     *
      * @return true если строка валидна, false в противном случае
      */
     public static boolean validateCsvLine(String csvLine) {
@@ -64,6 +65,7 @@ public class Validators {
 
     /**
      * Парсит строку и возвращает объекты с данными
+     *
      * @return объект String[]
      */
     public static String[] parseCsvLine(String csvLine) {
@@ -177,7 +179,6 @@ public class Validators {
             return false;
         }
     }
-
 
 
     /**

@@ -4,6 +4,7 @@ package teamwork.validators;
  * Класс для хранения результатов валидации
  */
 public class ValidationResult {
+
     private boolean numberValid;
     private boolean modelValid;
     private boolean odometerValid;
@@ -16,21 +17,51 @@ public class ValidationResult {
     }
 
     // Геттеры и сеттеры
-    public boolean isNumberValid() { return numberValid; }
-    public void setNumberValid(boolean numberValid) { this.numberValid = numberValid; }
+    public boolean isNumberValid() {
+        return numberValid;
+    }
 
-    public boolean isModelValid() { return modelValid; }
-    public void setModelValid(boolean modelValid) { this.modelValid = modelValid; }
+    public void setNumberValid(boolean numberValid) {
+        this.numberValid = numberValid;
+    }
 
-    public boolean isOdometerValid() { return odometerValid; }
-    public void setOdometerValid(boolean odometerValid) { this.odometerValid = odometerValid; }
+    public boolean isModelValid() {
+        return modelValid;
+    }
 
-    public int getNumber() { return number; }
-    public void setNumber(int number) { this.number = number; }
+    public void setModelValid(boolean modelValid) {
+        this.modelValid = modelValid;
+    }
 
-    public String getModel() { return model; }
-    public void setModel(String model) { this.model = model; }
+    public boolean isOdometerValid() {
+        return odometerValid;
+    }
 
-    public int getOdometer() { return odometer; }
-    public void setOdometer(int odometer) { this.odometer = odometer; }
+    public void setOdometerValid(boolean odometerValid) {
+        this.odometerValid = odometerValid;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public int getOdometer() {
+        return odometer;
+    }
+
+    public void setOdometer(int odometer) {
+        this.odometer = odometer;
+    }
 }

@@ -12,6 +12,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.List;
 
 public class FileHandler {
+
     private final Path outputPath;
 
     public FileHandler() {
@@ -42,11 +43,11 @@ public class FileHandler {
     public void writeToFile(List<Bus> collection, String filename) {
         Path filePath = this.outputPath.resolve(filename + ".txt");
 
-        try(BufferedWriter writer = Files.newBufferedWriter(
+        try (BufferedWriter writer = Files.newBufferedWriter(
                 filePath,
                 StandardOpenOption.CREATE,
                 StandardOpenOption.APPEND
-                )) {
+        )) {
 
             for (Bus bus : collection) {
                 writer.write(bus.toString());

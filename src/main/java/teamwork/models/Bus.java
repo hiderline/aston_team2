@@ -26,6 +26,10 @@ public class Bus {
         return odometer;
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -45,7 +49,9 @@ public class Bus {
         return odometer % 2 == 0;
     }
 
-    public boolean isNumberEven() { return number % 2 == 0; }
+    public boolean isNumberEven() {
+        return number % 2 == 0;
+    }
 
     @Override
     public String toString() {
@@ -58,25 +64,17 @@ public class Bus {
         private String model;
         private Integer odometer;
 
-        public Builder(){}
-
-        public Builder(int number, String model, int odometer) {
-            this.number = number;
-            this.model = model;
-            this.odometer = odometer;
-        }
-
-        public Builder setNumber(int number) {
+        public Builder number(Integer number) {
             this.number = number;
             return this;
         }
 
-        public Builder setModel(String model) {
+        public Builder model(String model) {
             this.model = model;
             return this;
         }
 
-        public Builder setOdometer(int odometer) {
+        public Builder odometer(Integer odometer) {
             this.odometer = odometer;
             return this;
         }

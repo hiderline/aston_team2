@@ -8,10 +8,10 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BusTest {
     @Test
     void builderCreateBusIsCorrect(){
-        Bus bus = new Bus.Builder()
-                .setNumber(1)
-                .setModel("ModelS")
-                .setOdometer(100)
+        Bus bus = Bus.builder()
+                .number(1)
+                .model("ModelS")
+                .odometer(100)
                 .build();
 
         assertEquals(1, bus.getNumber());
