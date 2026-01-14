@@ -1,11 +1,17 @@
 package teamwork.strategies;
 
 import teamwork.models.Bus;
+import teamwork.utils.BubbleSorter;
+
+import java.util.Comparator;
+import java.util.List;
 
 public class BusNumberSortStrategy implements SortStrategy{
     @Override
-    public int compare(Bus b1, Bus b2, boolean ascending) {
-        int result = Integer.compare(b1.getNumber(), b2.getNumber());
-        return ascending ? result : -result;
+    public void sort(List<Bus> data, boolean ascending) {
+        Comparator<Bus> numberComparator = Comparator.comparing(Bus::getNumber);
+        if (!ascending)
+            numberComparator = numberComparator.reversed();
+        BubbleSorter.sort(data, numberComparator);
     }
 }

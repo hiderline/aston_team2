@@ -6,10 +6,8 @@ import teamwork.factories.ManualBusFillStrategy;
 import teamwork.factories.RandomBusFillStrategy;
 import teamwork.models.Bus;
 import teamwork.strategies.*;
-import teamwork.utils.BubbleSorter;
 import teamwork.utils.FindByCollection;
 import teamwork.utils.MenuUtils;
-import teamwork.utils.Sorter;
 import teamwork.validators.ExceptionHandler;
 import teamwork.validators.FileHandler;
 import teamwork.validators.Validators;
@@ -40,13 +38,13 @@ public class Main {
                     fillCollection();
                     break;
                 case 2:
-                    displayCollection();
+                    displayCollection(buses);
                     break;
                 case 3:
                     sortCollection();
                     break;
                 case 4:
-                    saveToFile();
+                    saveToFile(buses);
                     break;
                 case 5:
                     searchByCollection();
@@ -67,7 +65,7 @@ public class Main {
         System.exit(0);
     }
 
-    private static void displayCollection() {
+    private static void displayCollection(List<Bus> buses) {
         if (buses.isEmpty()) {
             System.out.println("Коллекция пуста");
         } else {
@@ -81,6 +79,7 @@ public class Main {
 
     private static void sortCollection() {
         boolean menuActive = true;
+        SortManager sortManager = new SortManager();
 
         while (menuActive) {
             MenuUtils.showSortCollectionMenu();
@@ -88,87 +87,52 @@ public class Main {
 
             switch (choice) {
                 case 1:
-                    performSorting(new BusNumberSortStrategy());
+                    sortManager.setStrategy(new BusNumberSortStrategy());
+                    performSorting(sortManager, buses);
                     menuActive = false;
                     break;
                 case 2:
-                    performSorting(new BusModelSortStrategy());
+                    sortManager.setStrategy(new BusModelSortStrategy());
+                    performSorting(sortManager, buses);
                     menuActive = false;
                     break;
                 case 3:
-                    performSorting(new BusOdometerSortStrategy());
+                    sortManager.setStrategy(new BusOdometerSortStrategy());
+                    performSorting(sortManager, buses);
                     menuActive = false;
                     break;
                 case 4:
-                    performSorting(new MultiFieldSortStrategy());
+                    sortManager.setStrategy(new MultiFieldSortStrategy());
+                    performSorting(sortManager, buses);
                     menuActive = false;
                     break;
                 case 5:
-                    performEvenSorting();
+                    sortManager.setStrategy(new EvenOdometerSortStrategy());
+                    performSorting(sortManager, buses);
                     menuActive = false;
                     break;
                 case 0:
                     menuActive = false;
                     break;
-
             }
         }
     }
 
-    private static void performSorting(SortStrategy strategy) {
+    private static void performSorting(SortManager manager, List<Bus> buses) {
         if (buses.isEmpty()){
             ExceptionHandler.printError("Список пуст");
             return;
         }
         boolean ascending = getSortingDirection();
-        Sorter sorter = new BubbleSorter();
-        sorter.sort(buses, strategy, ascending);
-        displayCollection();
+        manager.sort(buses, ascending);
+        displayCollection(buses);
+        saveToFile(buses, manager.getStrategyName());
     }
 
     private static boolean getSortingDirection() {
         showSortingDirection();
         int choice = getIntInput("Ваш выбор:", 1, 2);
         return choice == 1;
-    }
-
-    private static void performEvenSorting() {
-        if (buses.isEmpty()) {
-            ExceptionHandler.printError("Список пуст");
-            return;
-        }
-        showSortingField();
-        int choiceField = getIntInput("Ваш выбор:", 1, 2);
-        List<Bus> copyBus = new ArrayList<>();
-        if (choiceField == 1) {
-            for (Bus bus : buses) {
-                if (bus.isNumberEven()) {
-                    copyBus.add(bus);
-                }
-            }
-            performSorting(new BusNumberSortStrategy());
-            int indexCopyBus = 0;
-            for (int i = 0; i < buses.size(); i++) {
-                if (buses.get(i).isNumberEven()) {
-                    buses.set(i, copyBus.get(indexCopyBus++));
-                }
-            }
-
-        } else {
-            for (Bus bus : buses) {
-                if (bus.isOdometerEven()) {
-                    copyBus.add(bus);
-                }
-            }
-            performSorting(new BusOdometerSortStrategy());
-            int indexCopyBus = 0;
-            for (int i = 0; i < buses.size(); i++) {
-                if (buses.get(i).isOdometerEven()) {
-                    buses.set(i, copyBus.get(indexCopyBus++));
-                }
-            }
-        }
-        displayCollection();
     }
 
 
@@ -241,10 +205,16 @@ public class Main {
             ExceptionHandler.printWarning("Для поиска заполните коллекцию");
         }
     }
-
-    private static void saveToFile() {
+    private static void saveToFile(List<Bus> buses) {
         System.out.println("Введите название файла (без расширения)");
         String filename = scanner.nextLine().trim();
+
+        saveToFile(buses, filename);
+    }
+    private static void saveToFile(List<Bus> buses, String filename) {
+        if (filename.isEmpty()) {
+            ExceptionHandler.printError("Не указано имя файла...");
+        }
 
         if (Validators.validateFilename(filename)) {
             FileHandler fileHandler = new FileHandler();
@@ -256,7 +226,7 @@ public class Main {
         while (true) {
             try {
                 System.out.println(message);
-                int value = Integer.parseInt(scanner.nextLine());
+                int value = Integer.parseInt(scanner.nextLine().trim());
                 if (value < 0) {
                     ExceptionHandler.printWarning("Значение не может быть отрицательным");
                     continue;
