@@ -77,19 +77,10 @@ mvn clean compile
 ### Запуск приложения
 #### 1. Через Maven
 ```bash
-mvn exec:java -Dexec.mainClass="teamwork.Main"
+mvn exec:java -Dexec.mainClass=teamwork.Main
 ```
-#### 2. Через JAR файл
-```bash
-mvn clean package
-java -jar target/bus-sorting-app.jar
-```
-#### 2. Через JAR файл
-```bash
-mvn clean package
-java -jar target/bus-sorting-app.jar
-```
-#### 3. Через IDE
+
+#### 2. Через IDE
 ```
 1. Откройте проект в вашей IDE
 2. Найдите класс Main.java
