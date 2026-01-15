@@ -1,9 +1,4 @@
 # Bus Sorting Application
-<div align="right">
-  
-[![Наверх](https://img.shields.io/badge/🔝_Наверх-007ACC?style=for-the-badge&logoColor=white)](#Bus-Sorting-Application)
-
-</div>
 
 ## Оглавление
 1. [Обзор](#Обзор)
@@ -40,7 +35,10 @@
 - Stream API: современные методы обработки данных
 - Многопоточность: параллельный поиск в коллекциях
 
-
+<div align="right">
+  
+[![Наверх](https://img.shields.io/badge/🔝_Наверх-007ACC?style=for-the-badge&logoColor=white)](#Bus-Sorting-Application)
+</div>
 
 ## Архитектура
 | **Паттерн** | **Назначение**                           | **Реализация**            |
@@ -57,7 +55,8 @@ Git (для клонирования репозитория)
 Любая IDE (IntelliJ IDEA, Eclipse, VS Code) или терминал
 ```
 <div align="right">
-  <a href="#Bus-Sorting-Application">⬆️</a>
+  
+[![Наверх](https://img.shields.io/badge/🔝_Наверх-007ACC?style=for-the-badge&logoColor=white)](#Bus-Sorting-Application)
 </div>
 
 ## Установка и запуск
@@ -91,6 +90,10 @@ java -jar target/bus-sorting-app.jar
 2. Найдите класс Main.java
 3. Запустите метод main()
 ```
+<div align="right">
+  
+[![Наверх](https://img.shields.io/badge/🔝_Наверх-007ACC?style=for-the-badge&logoColor=white)](#Bus-Sorting-Application)
+</div>
 
 ## Пример использования
 ### Главное меню
@@ -122,6 +125,10 @@ java -jar target/bus-sorting-app.jar
 5. По чётному числовому полю
 0. Вернуться назад
 ```
+<div align="right">
+  
+[![Наверх](https://img.shields.io/badge/🔝_Наверх-007ACC?style=for-the-badge&logoColor=white)](#Bus-Sorting-Application)
+</div>
 
 ## Лицензия
 Этот проект распространяется под лицензией MIT. См. файл [LICENSE](LICENSE) для подробностей.
